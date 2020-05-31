@@ -1,0 +1,3 @@
+rootProject.name='CoinsTest'
+include ':app'
+include ':core'

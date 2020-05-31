@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.coinstest.presentation.MainActivityViewModel" />
+    </data>
+
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".presentation.MainActivity">
+
+
+        <TextView
+            android:id="@+id/act1_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.currencyField.date}" />
+
+        <TextView
+            android:id="@+id/act1_valuta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.currencyField.name}" />
+
+        <TextView
+            android:id="@+id/act1_curs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{Float.toString(viewModel.currencyField.value)}" />
+
+        <Button
+            android:id="@+id/act1_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:onClick="@{() -> viewModel.changeCurrencyInRub()}"
+            android:text="Test" />
+
+    </LinearLayout>
+</layout>
