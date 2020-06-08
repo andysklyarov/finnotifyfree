@@ -14,7 +14,6 @@
         android:orientation="vertical"
         tools:context=".presentation.MainActivity">
 
-
         <TextView
             android:id="@+id/act1_date"
             android:layout_width="wrap_content"
@@ -38,7 +37,18 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:onClick="@{() -> viewModel.changeCurrencyInRub()}"
-            android:text="Test" />
+            android:text="See Сurrency In Rub" />
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.enableAlarm()}"
+            android:text="@string/start_service" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.disableAlarm()}"
+            android:text="@string/stop_service" />
     </LinearLayout>
 </layout>

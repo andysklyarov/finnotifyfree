@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">CoinsTest</string>
+    <string name="start_service">Start service</string>
+    <string name="stop_service">Stop service</string>
+    <string name="your_message">From BootReciver</string>
 
     <item name="bound_observable" type="id" />
 </resources>
