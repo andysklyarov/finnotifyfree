@@ -47,9 +47,7 @@ final class SoapCbrAsyncTask extends AsyncTask<Void, Void, String> {
             //Send POST data
             OutputStream os = urlConnection.getOutputStream();
             byte[] data = new byte[0];
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                data = envelope.getBytes(StandardCharsets.UTF_8);
-            }
+            data = envelope.getBytes(StandardCharsets.UTF_8);
             os.write(data);
 
             //Get response

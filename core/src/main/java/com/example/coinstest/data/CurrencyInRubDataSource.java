@@ -2,8 +2,10 @@ package com.example.coinstest.data;
 
 import com.example.coinstest.domain.CurrencyInRub;
 
-public interface CurrencyInRubDataSource {
-    CurrencyInRub getCurrencyOnDate(String date);
+import java.time.LocalDate;
 
-    String getLastDate();
+public interface CurrencyInRubDataSource {
+    CurrencyInRub getCurrencyOnDate(LocalDate date);
+
+    LocalDate getLastDate();
 }

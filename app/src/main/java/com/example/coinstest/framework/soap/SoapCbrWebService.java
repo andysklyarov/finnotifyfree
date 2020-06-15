@@ -10,6 +10,8 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ExecutionException;
 
 import static com.example.coinstest.framework.soap.SoapCbrResources.CBR_GET_CURS_ON_DATE_XML;
@@ -20,12 +22,17 @@ public final class SoapCbrWebService {
     private final String LOG_TAG = "CoinsTest";
     private SoapCbrAsyncTask soapCbrAsyncTask;
 
-    public CurrencyInRub getCurrency(String currencyName, String date) {
+    public CurrencyInRub getCurrency(String currencyName, LocalDate date) {
 
         String dataTimeInXml = "dateTime";
         StringBuilder strXml = new StringBuilder(CBR_GET_CURS_ON_DATE_XML);
         int posDataTimeInXml = strXml.lastIndexOf(dataTimeInXml);
-        strXml.replace(posDataTimeInXml, posDataTimeInXml + dataTimeInXml.length(), date);
+
+
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = outputFormatter.format(date) + "T00:00:00";
+
+        strXml.replace(posDataTimeInXml, posDataTimeInXml + dataTimeInXml.length(), formattedDate);
 
         soapCbrAsyncTask = new SoapCbrAsyncTask(strXml.toString(), 2000);
         String reqXML = null;
@@ -36,10 +43,10 @@ public final class SoapCbrWebService {
         }
 
         float currencyValue = GetCurs(reqXML, currencyName);
-        return new CurrencyInRub(date, currencyName, currencyValue);
+        return new CurrencyInRub(currencyName, date, currencyValue);
     }
 
-    public String getLastServerDate() {
+    public LocalDate getLastServerDate() {
 
         soapCbrAsyncTask = new SoapCbrAsyncTask(CBR_GET_LATEST_DATE_TIME, 2000);
         String reqXML = null;
@@ -49,7 +56,11 @@ public final class SoapCbrWebService {
             e.printStackTrace();
         }
 
-        return GetDataTime(reqXML); //"2020-04-30T00:00:00"
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+
+        LocalDate date = LocalDate.parse(GetDataTime(reqXML), outputFormatter);
+
+        return date; //"2020-04-30T00:00:00"
     }
 
     /**

@@ -9,52 +9,90 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
 
+import androidx.annotation.NonNull;
+
 import java.time.ZonedDateTime;
 
 public class AlarmServiceManager {
 
-    public final static String TIME_IN_MILLIS_KEY = "TimeInMillis";
+    public final static String TIME_IN_MILLIS_KEY = "TIME_IN_MILLIS";
+    public final static String TOP_LIMIT_KEY = "TOP_LIMIT";
+    public final static String BOTTOM_LIMIT_KEY = "BOTTOM_LIMIT";
 
-    private Context context = null;
-    private AlarmManager manager = null;
-    private PackageManager packageManager = null;
+    private final static String SERVICE_STATUS_KEY = "SERVICE_STATUS";
 
-    public AlarmServiceManager(Context context) {
+    private Context context;
+    private AlarmManager manager;
+    private PackageManager packageManager;
+    private ServiceState state;
+
+    public AlarmServiceManager(@NonNull Context context) {
         this.context = context;
         manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         packageManager = context.getPackageManager();
+        loadServiceData();
     }
 
-    public void startRepeatingService(ZonedDateTime timeToStart) {
+    public void startRepeatingService(@NonNull ZonedDateTime timeToStart, float topLimit, float bottomLimit) {
 
         Intent intent = new Intent(context, AlarmReceiver.class);
+        intent.putExtra(TOP_LIMIT_KEY, topLimit);
+        intent.putExtra(BOTTOM_LIMIT_KEY, bottomLimit);
+
         PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 
         long currentTimeMillis = timeToStart.toInstant().toEpochMilli();
 
-        if (manager != null)
+        if (manager != null) {
             manager.setRepeating(AlarmManager.RTC_WAKEUP, currentTimeMillis, AlarmManager.INTERVAL_DAY, alarmIntent);
 
-        enableBootReceiver();
-        safeDateTime(timeToStart);
+            state = new ServiceState(true, currentTimeMillis, topLimit, bottomLimit);
+            safeServiceData();
+
+            enableBootReceiver();
+        }
     }
 
     public void stopRepeatingService() {
-        disableBootReceiver();
 
         Intent intent = new Intent(context, AlarmReceiver.class);
         PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 
         if (manager != null) {
+
+            disableBootReceiver();
             manager.cancel(alarmIntent);
+
+            state = new ServiceState(false, state);
+            safeServiceData();
         }
     }
 
-    private void safeDateTime(ZonedDateTime timeToStart) {
+    public ServiceState getServiceState() {
+        return state;
+    }
+
+    private void loadServiceData() {
         SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
+        boolean isStarted = myPreferences.getBoolean(SERVICE_STATUS_KEY, false);
+        long timeToStartInMillis = myPreferences.getLong(TIME_IN_MILLIS_KEY, 0);
+        float topLimit = myPreferences.getFloat(TOP_LIMIT_KEY, 0);
+        float bottomLimit = myPreferences.getFloat(BOTTOM_LIMIT_KEY, 0);
+
+        state = new ServiceState(isStarted, timeToStartInMillis, topLimit, bottomLimit);
+    }
+
+    private void safeServiceData() {
+
+        SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor myEditor = myPreferences.edit();
-        myEditor.putLong(TIME_IN_MILLIS_KEY, timeToStart.toInstant().toEpochMilli());
+
+        myEditor.putBoolean(SERVICE_STATUS_KEY, state.isStarted);
+        myEditor.putFloat(TOP_LIMIT_KEY, state.topLimit);
+        myEditor.putFloat(BOTTOM_LIMIT_KEY, state.bottomLimit);
+        myEditor.putLong(TIME_IN_MILLIS_KEY, state.timeToStartInMillis);
+
         myEditor.apply();
     }
 

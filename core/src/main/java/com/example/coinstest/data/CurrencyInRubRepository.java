@@ -2,6 +2,8 @@ package com.example.coinstest.data;
 
 import com.example.coinstest.domain.CurrencyInRub;
 
+import java.time.LocalDate;
+
 public class CurrencyInRubRepository {
     private CurrencyInRubDataSource currencyDataSource;
 
@@ -9,11 +11,11 @@ public class CurrencyInRubRepository {
         currencyDataSource = dataSource;
     }
 
-    public CurrencyInRub getCurrencyOnDate(String date) {
+    public CurrencyInRub getCurrencyOnDate(LocalDate date) {
         return currencyDataSource.getCurrencyOnDate(date);
     }
 
-    public String getLastDate() {
+    public LocalDate getLastDate() {
         return currencyDataSource.getLastDate();
     }
 }

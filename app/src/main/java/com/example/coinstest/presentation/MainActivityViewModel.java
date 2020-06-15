@@ -1,56 +1,78 @@
 package com.example.coinstest.presentation;
 
 import android.app.Application;
-import android.os.Build;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.example.coinstest.domain.CurrencyInRub;
 import com.example.coinstest.framework.receivers.AlarmServiceManager;
+import com.example.coinstest.framework.receivers.ServiceState;
 import com.example.coinstest.interactors.Interactors;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivityViewModel extends AndroidViewModel {
 
     public final ObservableField<CurrencyInRub> currencyField = new ObservableField<>();
+    public final ObservableField<Float> topLimit = new ObservableField<>();
+    public final ObservableField<Float> bottomLimit = new ObservableField<>();
+    public final ObservableField<Boolean> isServiceStarted = new ObservableField<>();
+
     private Interactors interactors;
     private AlarmServiceManager alarmManager = null;
+    private LocalDateTime alarmTime;
 
-    public MainActivityViewModel(@NonNull Application application) {
+    public MainActivityViewModel(Application application) {
         super(application);
 
-        CurrencyInRub currency = new CurrencyInRub("Empty", "Empty", 0.0f);
+        CurrencyInRub currency = new CurrencyInRub("Empty", LocalDate.of(1, 1, 1), 0.0f);
         currencyField.set(currency);
         this.interactors = null;
 
         alarmManager = new AlarmServiceManager(getApplication());
+
+        ServiceState state = alarmManager.getServiceState();
+        Date date = new Date(state.timeToStartInMillis);
+        setAlarmTime(date.getHours(), date.getMinutes());
+        topLimit.set(state.topLimit);
+        bottomLimit.set(state.bottomLimit);
+        isServiceStarted.set(state.isStarted);
     }
 
-    public MainActivityViewModel(@NonNull Application application, Interactors interactors) {
+    public MainActivityViewModel(Application application, Interactors interactors) {
         super(application);
 
-        CurrencyInRub currency = new CurrencyInRub("Empty", "Empty", 0.0f);
+        CurrencyInRub currency = new CurrencyInRub("Empty", LocalDate.of(1, 1, 1), 0.0f);
         currencyField.set(currency);
         this.interactors = interactors;
 
         alarmManager = new AlarmServiceManager(getApplication());
+        ServiceState state = alarmManager.getServiceState();
+        Date date = new Date(state.timeToStartInMillis);
+        setAlarmTime(date.getHours(), date.getMinutes());
+        topLimit.set(state.topLimit);
+        bottomLimit.set(state.bottomLimit);
+        isServiceStarted.set(state.isStarted);
     }
 
     public void changeCurrencyInRub() {
         currencyField.set(interactors.getLastCurrency());
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void enableAlarm() {
+    public String getLocalDate() {
+        LocalDate date = currencyField.get().date;
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        return date.format(outputFormatter);
+    }
 
+    public void setAlarmTime(int hour, int minutes) {
         Calendar now = Calendar.getInstance();
         now.set(Calendar.HOUR, 0);
         now.set(Calendar.MINUTE, 0);
@@ -58,22 +80,31 @@ public class MainActivityViewModel extends AndroidViewModel {
         now.set(Calendar.HOUR_OF_DAY, 0);
 
         Date currentTime = now.getTime();
-        LocalDateTime ldt = LocalDateTime.ofInstant(currentTime.toInstant(), ZoneId.systemDefault());
-
-        ldt = ldt.plusHours(22);
-
-        ZonedDateTime zdt = ldt.atZone(ZoneId.systemDefault());
-
-        alarmManager.startRepeatingService(zdt);
+        alarmTime = LocalDateTime.ofInstant(currentTime.toInstant(), ZoneId.systemDefault());
+        alarmTime = alarmTime.plusHours(hour).plusMinutes(minutes);
     }
 
-    public void disableAlarm(){
+    public LocalDateTime getAlarmTime() {
+        return alarmTime;
+    }
+
+    public void enableAlarm(float topLimit, float bottomLimit) {
+
+        this.topLimit.set(topLimit);
+        this.bottomLimit.set(bottomLimit);
+
+        ZonedDateTime zdt = alarmTime.atZone(ZoneId.systemDefault());
+        alarmManager.startRepeatingService(zdt, topLimit, bottomLimit);
+    }
+
+    public void disableAlarm() {
         alarmManager.stopRepeatingService();
     }
 
     public void onResume() {
         changeCurrencyInRub();
     }
+
 }
 
 

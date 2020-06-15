@@ -3,6 +3,8 @@ package com.example.coinstest.interactors;
 import com.example.coinstest.data.CurrencyInRubRepository;
 import com.example.coinstest.domain.CurrencyInRub;
 
+import java.time.LocalDate;
+
 public final class Interactors {
     private CurrencyInRubRepository currencyRepository;
 
@@ -10,16 +12,16 @@ public final class Interactors {
         currencyRepository = repository;
     }
 
-    public String getLastDate() {
+    public LocalDate getLastDate() {
         return currencyRepository.getLastDate();
     }
 
-    public CurrencyInRub getCurrencyOnDate(String date) {
+    public CurrencyInRub getCurrencyOnDate(LocalDate date) {
         return currencyRepository.getCurrencyOnDate(date);
     }
 
     public CurrencyInRub getLastCurrency() {
-        String lastDate = currencyRepository.getLastDate();
+        LocalDate lastDate = currencyRepository.getLastDate();
         return currencyRepository.getCurrencyOnDate(lastDate);
     }
 }
