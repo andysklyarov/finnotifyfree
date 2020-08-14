@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.container, new CurrencyFragment())
+                    .add(R.id.container,  CurrencyFragment.newInstance())
                     .commit();
         }
     }
@@ -34,7 +34,9 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
 
     @Override
     public void navigateTo(Fragment fragment, boolean addToBackstack) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment);
+        FragmentTransaction transaction = getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, fragment);
 
         if (addToBackstack) {
             transaction.addToBackStack(null);

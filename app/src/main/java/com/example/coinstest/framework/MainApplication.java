@@ -16,8 +16,6 @@ public class MainApplication extends Application {
         repository = new CurrencyInRubRepository(new SoapCurrencyInRubDataSource());
         interactors = new Interactors(repository);
         ApplicationViewModelFactory.inject(interactors);
-
-
     }
 
     public Interactors getInteractors() {

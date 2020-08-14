@@ -20,6 +20,8 @@ import java.util.Date;
 
 public class MainActivityViewModel extends AndroidViewModel {
 
+    public static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public final ObservableField<CurrencyInRub> currencyField = new ObservableField<>();
     public final ObservableField<Float> topLimit = new ObservableField<>();
     public final ObservableField<Float> bottomLimit = new ObservableField<>();
@@ -32,7 +34,7 @@ public class MainActivityViewModel extends AndroidViewModel {
     public MainActivityViewModel(Application application) {
         super(application);
 
-        CurrencyInRub currency = new CurrencyInRub("Empty", LocalDate.of(1, 1, 1), 0.0f);
+        CurrencyInRub currency = new CurrencyInRub("USD", LocalDate.of(2010, 1, 1), 0.0f);
         currencyField.set(currency);
         this.interactors = null;
 
@@ -49,7 +51,7 @@ public class MainActivityViewModel extends AndroidViewModel {
     public MainActivityViewModel(Application application, Interactors interactors) {
         super(application);
 
-        CurrencyInRub currency = new CurrencyInRub("Empty", LocalDate.of(1, 1, 1), 0.0f);
+        CurrencyInRub currency = new CurrencyInRub("USD", LocalDate.of(2010, 1, 1), 0.0f);
         currencyField.set(currency);
         this.interactors = interactors;
 
@@ -62,14 +64,8 @@ public class MainActivityViewModel extends AndroidViewModel {
         isServiceStarted.set(state.isStarted);
     }
 
-    public void changeCurrencyInRub() {
+    public void updateCurrencyInRub() {
         currencyField.set(interactors.getLastCurrency());
-    }
-
-    public String getLocalDate() {
-        LocalDate date = currencyField.get().date;
-        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        return date.format(outputFormatter);
     }
 
     public void setAlarmTime(int hour, int minutes) {
@@ -101,9 +97,9 @@ public class MainActivityViewModel extends AndroidViewModel {
         alarmManager.stopRepeatingService();
     }
 
-    public void onResume() {
-        changeCurrencyInRub();
-    }
+//    public void onResume() {
+//        changeCurrencyInRub();
+//    }
 
 }
 
