@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.coinstest.presentation.MainActivityViewModel" />
+            type="com.andysklyarov.finnotify.presentation.MainActivityViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

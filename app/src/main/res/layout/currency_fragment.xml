@@ -5,10 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
-            type="com.example.coinstest.presentation.MainActivityViewModel" />
+            type="com.andysklyarov.finnotify.presentation.MainActivityViewModel" />
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -42,17 +41,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="54dp"
-                android:layout_marginEnd="26dp"
-                app:icon="@drawable/ic_add"
-                app:iconGravity="start"
-                app:iconPadding="0dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+<!--            <Button-->
+<!--                style="@style/Widget.MaterialComponents.Button.TextButton"-->
+<!--                android:layout_width="40dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="54dp"-->
+<!--                android:layout_marginEnd="26dp"-->
+<!--                app:icon="@drawable/ic_add"-->
+<!--                app:iconGravity="start"-->
+<!--                app:iconPadding="0dp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
 
             <TextView
                 android:id="@+id/currency_name"
@@ -84,29 +83,29 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/currency_char"
-                style="@style/Theme.CoinsTest.CommonTextView"
-                android:layout_width="86dp"
-                android:layout_height="22dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="388dp"
-                android:text="Calm"
-                android:textSize="18dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+<!--            <TextView-->
+<!--                android:id="@+id/currency_char"-->
+<!--                style="@style/Theme.CoinsTest.CommonTextView"-->
+<!--                android:layout_width="86dp"-->
+<!--                android:layout_height="22dp"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:layout_marginTop="388dp"-->
+<!--                android:text="Calm"-->
+<!--                android:textSize="18dp"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
 
-            <TextView
-                android:id="@+id/currency_diff"
-                style="@style/Theme.CoinsTest.CommonTextView"
-                android:layout_width="46dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="432dp"
-                android:text="+0.71"
-                android:textSize="18dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+<!--            <TextView-->
+<!--                android:id="@+id/currency_diff"-->
+<!--                style="@style/Theme.CoinsTest.CommonTextView"-->
+<!--                android:layout_width="46dp"-->
+<!--                android:layout_height="24dp"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:layout_marginTop="432dp"-->
+<!--                android:text="+0.71"-->
+<!--                android:textSize="18dp"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
 
             <TextView
                 android:id="@+id/currency_value"

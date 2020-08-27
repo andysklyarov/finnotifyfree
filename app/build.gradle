@@ -12,6 +12,10 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField ('String', 'CBR_WEBSERV_URL', '"https://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx"')
+        buildConfigField ('String', 'CBR_HOST', '"www.cbr.ru"')
+        buildConfigField ('String', 'CBR_CONTENT_TYPE', '"application/soap+xml; charset=utf-8"')
     }
 
     buildTypes {
@@ -37,7 +41,7 @@ dependencies {
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
     testImplementation 'junit:junit:4.12'
@@ -45,6 +49,17 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+    implementation 'com.squareup.okhttp3:okhttp:4.8.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.8.1'
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation ('com.squareup.retrofit2:converter-simplexml:2.9.0'){
+        exclude group: 'stax', module: 'stax-api'
+        exclude group: 'stax', module: 'stax'
+        exclude group: 'xpp3', module: 'xpp3'
+    }
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
     implementation project(':core')
 }
