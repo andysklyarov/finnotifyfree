@@ -39,47 +39,17 @@ public class MainViewModel extends AndroidViewModel {
     public final ObservableField<Integer> errorVisibility = new ObservableField<>();
 
     private Interactors interactors;
-    private AlarmServiceManager alarmManager = null;
+    private AlarmServiceManager alarmManager;
     private LocalDateTime alarmTime;
 
     public MainViewModel(Application application) {
         super(application);
-
-        CurrencyInRub currency = new CurrencyInRub("USD", LocalDate.of(0, 1, 1), 0.0f);
-        nowCurrency.set(currency);
-        this.interactors = null;
-
-        alarmManager = new AlarmServiceManager(getApplication());
-        ServiceState state = alarmManager.getServiceState();
-        Date date = new Date(state.timeToStartInMillis);
-        setAlarmTime(date.getHours(), date.getMinutes());
-        topLimit.set(state.topLimit);
-        bottomLimit.set(state.bottomLimit);
-        isServiceStarted.set(state.isStarted);
-
-        isLoading.set(false);
-        mainPartsVisibility.set(View.GONE);
-        errorVisibility.set(View.GONE);
+        initViewModel(null);
     }
 
     public MainViewModel(Application application, Interactors interactors) {
         super(application);
-
-        CurrencyInRub currency = new CurrencyInRub("USD", LocalDate.of(0, 1, 1), 0.0f);
-        nowCurrency.set(currency);
-        this.interactors = interactors;
-
-        alarmManager = new AlarmServiceManager(getApplication());
-        ServiceState state = alarmManager.getServiceState();
-        Date date = new Date(state.timeToStartInMillis);
-        setAlarmTime(date.getHours(), date.getMinutes());
-        topLimit.set(state.topLimit);
-        bottomLimit.set(state.bottomLimit);
-        isServiceStarted.set(state.isStarted);
-
-        isLoading.set(false);
-        mainPartsVisibility.set(View.GONE);
-        errorVisibility.set(View.GONE);
+        initViewModel(interactors);
     }
 
     public void updateData() {
@@ -116,19 +86,43 @@ public class MainViewModel extends AndroidViewModel {
     }
 
     public void enableAlarm(float topLimit, float bottomLimit) {
-
         this.topLimit.set(topLimit);
         this.bottomLimit.set(bottomLimit);
 
         ZonedDateTime zdt = alarmTime.atZone(ZoneId.systemDefault());
         alarmManager.startRepeatingService(zdt, topLimit, bottomLimit);
+        updateAlarmState();
     }
 
     public void disableAlarm() {
         alarmManager.stopRepeatingService();
+        updateAlarmState();
     }
 
     public String getPreamble() {
         return getApplication().getResources().getString(R.string.update_on);
+    }
+
+    private void initViewModel(Interactors interactors) {
+        CurrencyInRub currency = new CurrencyInRub("USD", LocalDate.of(0, 1, 1), 0.0f);
+        nowCurrency.set(currency);
+
+        alarmManager = new AlarmServiceManager(getApplication());
+        updateAlarmState();
+
+        isLoading.set(false);
+        mainPartsVisibility.set(View.GONE);
+        errorVisibility.set(View.GONE);
+
+        this.interactors = interactors;
+    }
+
+    private void updateAlarmState() {
+        ServiceState state = alarmManager.getServiceState();
+        Date date = new Date(state.timeToStartInMillis);
+        setAlarmTime(date.getHours(), date.getMinutes());
+        topLimit.set(state.topLimit);
+        bottomLimit.set(state.bottomLimit);
+        isServiceStarted.set(state.isStarted);
     }
 }
