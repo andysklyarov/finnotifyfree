@@ -87,7 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="29dp"
                     android:layout_marginTop="124dp"
-                    android:text="@{viewModel.getPreamble() + ' ' + viewModel.nowCurrency.date.format(viewModel.DATE_FORMAT)}"
+                    android:text="@{viewModel.getDatePreamble() + ' ' + viewModel.nowCurrency.date.format(viewModel.DATE_FORMAT)}"
                     android:textAlignment="center"
                     android:textSize="18dp"
                     android:textStyle="bold"
@@ -116,14 +116,15 @@
                 <TextView
                     android:id="@+id/currency_diff"
                     style="@style/Theme.CoinsTest.CommonTextView"
-                    android:layout_width="46dp"
-                    android:layout_height="24dp"
+                    android:layout_width="64dp"
+                    android:layout_height="36dp"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="400dp"
-                    android:text="+0.71"
-                    android:textSize="18dp"
+                    android:layout_marginTop="376dp"
+                    android:text="@{viewModel.diffCurrency}"
+                    android:textSize="24dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="+0.77" />
 
                 <TextView
                     android:id="@+id/currency_value"
@@ -138,14 +139,27 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/currency_nom"
+                    style="@style/Theme.CoinsTest.CommonTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginTop="580dp"
+                    android:layout_marginEnd="24dp"
+                    android:text="@{viewModel.getNomPreamble(viewModel.nowCurrency.denomination, viewModel.nowCurrency.name)}"
+                    android:textSize="24dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="За 1 USD" />
+
+                <TextView
                     style="@style/Theme.CoinsTest.CommonTextView"
                     android:layout_width="68dp"
                     android:layout_height="48dp"
-                    android:layout_marginStart="272dp"
                     android:layout_marginTop="424dp"
+                    android:layout_marginEnd="24dp"
                     android:text="RUB"
                     android:textSize="36dp"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>

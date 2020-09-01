@@ -2,68 +2,66 @@ package com.andysklyarov.finnotify.framework.receivers;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
 
 import androidx.annotation.NonNull;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Calendar;
+import java.util.Date;
 
 public class AlarmServiceManager {
 
     public final static String TIME_IN_MILLIS_KEY = "TIME_IN_MILLIS";
     public final static String TOP_LIMIT_KEY = "TOP_LIMIT";
     public final static String BOTTOM_LIMIT_KEY = "BOTTOM_LIMIT";
-
     private final static String SERVICE_STATUS_KEY = "SERVICE_STATUS";
 
     private Context context;
     private AlarmManager manager;
-    private PackageManager packageManager;
     private ServiceState state;
+    private ZonedDateTime alarmTime;
 
     public AlarmServiceManager(@NonNull Context context) {
         this.context = context;
         manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        packageManager = context.getPackageManager();
         loadServiceData();
     }
 
-    public void startRepeatingService(@NonNull ZonedDateTime timeToStart, float topLimit, float bottomLimit) {
+    public ZonedDateTime getAlarmTime() {
+        return alarmTime;
+    }
 
+    public void setAlarmTime24(int hour, int minutes) {
+        ZonedDateTime startOfDayTime = ZonedDateTime.now().toLocalDate().atStartOfDay(ZoneId.systemDefault());
+        alarmTime = startOfDayTime.plusHours(hour).plusMinutes(minutes);
+
+        if (alarmTime.isBefore(ZonedDateTime.now())) {
+            alarmTime = alarmTime.plusDays(1);
+        }
+    }
+
+
+    public void startRepeatingService(float topLimit, float bottomLimit) {
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.putExtra(TOP_LIMIT_KEY, topLimit);
         intent.putExtra(BOTTOM_LIMIT_KEY, bottomLimit);
 
         PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 
-        ZoneId zoneId= ZoneId.systemDefault();
-        long currentTimeMillis;
-
-        if (timeToStart.isAfter(ZonedDateTime.now(zoneId))) {
-            currentTimeMillis = timeToStart.toInstant().toEpochMilli();
-        } else {
-            currentTimeMillis = timeToStart.toLocalDate()
-                    .plusDays(1)
-                    .atStartOfDay(zoneId)
-                    .toInstant()
-                    .toEpochMilli();
-        }
+        long currentTimeMillis = alarmTime.toInstant().toEpochMilli();
 
         if (manager != null) {
             manager.setRepeating(AlarmManager.RTC_WAKEUP, currentTimeMillis, AlarmManager.INTERVAL_DAY, alarmIntent);
 
             state = new ServiceState(true, currentTimeMillis, topLimit, bottomLimit);
-
             safeServiceData();
-            enableBootReceiver();
         }
     }
 
@@ -73,8 +71,6 @@ public class AlarmServiceManager {
         PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 
         if (manager != null) {
-
-            disableBootReceiver();
             manager.cancel(alarmIntent);
 
             state = new ServiceState(false, state);
@@ -95,6 +91,9 @@ public class AlarmServiceManager {
         float bottomLimit = myPreferences.getFloat(BOTTOM_LIMIT_KEY, 0);
 
         state = new ServiceState(isStarted, timeToStartInMillis, topLimit, bottomLimit);
+
+        Instant i = Instant.ofEpochMilli(timeToStartInMillis);
+        alarmTime = ZonedDateTime.ofInstant(i, ZoneId.systemDefault());
     }
 
     private void safeServiceData() {
@@ -110,17 +109,5 @@ public class AlarmServiceManager {
         myEditor.apply();
     }
 
-    private void enableBootReceiver() {
-        packageManager.setComponentEnabledSetting(
-                new ComponentName(context, BootReceiver.class),
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                PackageManager.DONT_KILL_APP);
-    }
 
-    private void disableBootReceiver() {
-        packageManager.setComponentEnabledSetting(
-                new ComponentName(context, BootReceiver.class),
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                PackageManager.DONT_KILL_APP);
-    }
 }

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">FinNotify</string>
     <string name="update_on">Курс на</string>
+    <string name="nom_string">За</string>
     <item name="bound_observable" type="id" />
 </resources>

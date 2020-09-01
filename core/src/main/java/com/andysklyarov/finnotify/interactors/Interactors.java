@@ -2,6 +2,7 @@ package com.andysklyarov.finnotify.interactors;
 
 import com.andysklyarov.finnotify.data.CurrencyInRubRepository;
 import com.andysklyarov.finnotify.domain.CurrencyInRub;
+import com.andysklyarov.finnotify.domain.DiffCurrencyInRub;
 
 import io.reactivex.Single;
 
@@ -23,6 +24,14 @@ public final class Interactors {
     }
 
     public Single<CurrencyInRub> getLastCurrency() {
-        return getLastDate().flatMap(localDate -> getCurrencyOnDate(localDate));
+        return getLastDate().flatMap(this::getCurrencyOnDate);
+    }
+
+    public Single<DiffCurrencyInRub> getLastDiffCurrency() {
+        return getLastDate()
+                .flatMap(localDate -> getCurrencyOnDate(localDate.minusDays(1))
+                        .flatMap(currencyOld -> getCurrencyOnDate(localDate)
+                                .map(currencyNew -> new DiffCurrencyInRub(currencyNew, currencyNew.value - currencyOld.value))
+                        ));
     }
 }

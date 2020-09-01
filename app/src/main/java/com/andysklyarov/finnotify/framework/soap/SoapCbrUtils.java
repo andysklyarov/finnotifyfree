@@ -34,6 +34,7 @@ import java.util.List;
 import io.reactivex.Single;
 
 import static java.lang.Float.parseFloat;
+import static java.lang.Integer.parseInt;
 
 public final class SoapCbrUtils {
 
@@ -59,7 +60,6 @@ public final class SoapCbrUtils {
                     String dateTime = response.getBody()
                             .getLatestDateTimeData()
                             .getDateTime();
-
                     DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern(OUTPUT_DATE_TIME_PATTERN);
                     return LocalDate.parse(dateTime, outputFormatter); //"2020-04-30T00:00:00"
                 });
@@ -202,17 +202,19 @@ public final class SoapCbrUtils {
         LocalDate localDate = LocalDate.parse(onDateStr, outputFormatter);
 
         float currencyValueInRub = 0;
+        int denomination = 0;
 
         if (currencies != null) {
             for (ResponseValuteCursOnDate currency : currencies) {
                 if (currency.chCode.equals(currencyName)) {
                     currencyValueInRub = parseFloat(currency.curs);
+                    denomination = parseInt(currency.nom);
                     break;
                 }
             }
         }
 
-        return new CurrencyInRub(currencyName, localDate, currencyValueInRub);
+        return new CurrencyInRub(currencyName, localDate, denomination, currencyValueInRub);
     }
 
     private static boolean hasNetworkException(Throwable throwable) {

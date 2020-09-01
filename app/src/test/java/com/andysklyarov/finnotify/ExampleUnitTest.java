@@ -2,6 +2,13 @@ package com.andysklyarov.finnotify;
 
 import org.junit.Test;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.LocalTime;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -11,7 +18,38 @@ import static org.junit.Assert.assertEquals;
  */
 public class ExampleUnitTest {
     @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+    public void setAlarmTime24_isCorrect() {
+        ZonedDateTime time = setAlarmTime24(10, 0);
+        assertEquals(ZonedDateTime.of(
+                LocalDateTime.of(
+                        LocalDate.of(2020, 9, 2),
+                        LocalTime.of(10, 0, 0, 0)),
+                ZoneId.systemDefault()),
+                time);
+    }
+
+    private ZonedDateTime setAlarmTime24(int hour, int minutes) {
+        ZonedDateTime alarmTime;
+        ZonedDateTime startOfDayTime = ZonedDateTime.now().toLocalDate().atStartOfDay(ZoneId.systemDefault());
+        alarmTime = startOfDayTime.plusHours(hour).plusMinutes(minutes);
+
+        if (alarmTime.isBefore(ZonedDateTime.now())) {
+            alarmTime = alarmTime.plusDays(1);
+        }
+
+        return alarmTime;
+    }
+
+    @Test
+    public void loadServiceData_isCorrect() {
+        ZonedDateTime time = setAlarmTime24(10, 0);
+        assertEquals(time, loadServiceData(time.toInstant().toEpochMilli()));
+    }
+
+    private ZonedDateTime loadServiceData(long timeToStartInMillis) {
+        ZonedDateTime alarmTime;
+        Instant i = Instant.ofEpochMilli(timeToStartInMillis);
+        alarmTime = ZonedDateTime.ofInstant(i, ZoneId.systemDefault());
+        return alarmTime;
     }
 }

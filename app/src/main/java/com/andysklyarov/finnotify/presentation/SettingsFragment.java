@@ -63,10 +63,6 @@ public class SettingsFragment extends Fragment {
         timePicker.setIs24HourView(true);
         timePicker.setHour(viewModel.getAlarmTime().getHour());
         timePicker.setMinute(viewModel.getAlarmTime().getMinute());
-
-        timePicker.setOnTimeChangedListener((timePicker1, i, i1) -> {
-            viewModel.setAlarmTime(timePicker1.getHour(), timePicker1.getMinute());
-        });
     }
 
     private void initAlarmSwitch() {
@@ -81,7 +77,6 @@ public class SettingsFragment extends Fragment {
             setSettingsVisibility(isChecked);
             isSettingsSave = isChecked;
         });
-
     }
 
     private void initBackButton() {
@@ -101,7 +96,11 @@ public class SettingsFragment extends Fragment {
                 if (topLimit < 0) topLimit = 0;
                 if (bottomLimit < 0) bottomLimit = 0;
 
-                viewModel.enableAlarm(topLimit, bottomLimit);
+                TimePicker timePicker = view.findViewById(R.id.time_picker);
+                int hours = timePicker.getHour();
+                int minutes = timePicker.getMinute();
+
+                viewModel.enableAlarm(hours, minutes, topLimit, bottomLimit);
             } else {
                 viewModel.disableAlarm();
             }
