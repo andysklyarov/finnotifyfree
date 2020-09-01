@@ -1,5 +1,6 @@
 package com.andysklyarov.finnotify.presentation;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,11 +22,23 @@ import com.andysklyarov.finnotify.framework.ApplicationViewModelFactory;
 import com.google.android.material.button.MaterialButton;
 
 public class CurrencyFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
-    private MainActivityViewModel viewModel;
+    private MainViewModel viewModel;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     public static CurrencyFragment newInstance() {
         return new CurrencyFragment();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        FragmentActivity activity = requireActivity();
+        viewModel = new ViewModelProvider(activity,
+                new ApplicationViewModelFactory(activity.getApplication())).
+                get(MainViewModel.class);
+
+        viewModel.updateData();
     }
 
     @Override
@@ -37,15 +50,11 @@ public class CurrencyFragment extends Fragment implements SwipeRefreshLayout.OnR
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         FragmentActivity activity = requireActivity();
-        viewModel = new ViewModelProvider(activity,
-                new ApplicationViewModelFactory(activity.getApplication())).
-                get(MainActivityViewModel.class);
 
         CurrencyFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.currency_fragment, container, false);
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(activity);
 
-        //viewModel.changeCurrencyInRub();
         return binding.getRoot();
     }
 
@@ -56,14 +65,12 @@ public class CurrencyFragment extends Fragment implements SwipeRefreshLayout.OnR
         swipeRefreshLayout.setOnRefreshListener(this);
 
         MaterialButton settingsButton = view.findViewById(R.id.settings_button);
-        settingsButton.setOnClickListener(view1 -> {
+        settingsButton.setOnClickListener(navigationView -> {
             NavigationHost navigationHost = (NavigationHost) getActivity();
             if (navigationHost != null) {
-                // Navigate to the next Fragment
                 navigationHost.navigateTo(new SettingsFragment(), true);
             }
         });
-
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -73,19 +80,9 @@ public class CurrencyFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-//        viewModel.onResume();
-    }
-
-    @Override
     public void onRefresh() {
-
         swipeRefreshLayout.post(()->{
-            viewModel.updateCurrencyInRub();
-
-            if (swipeRefreshLayout.isRefreshing())
-                swipeRefreshLayout.setRefreshing(false);
+            viewModel.updateData();
         });
     }
 }

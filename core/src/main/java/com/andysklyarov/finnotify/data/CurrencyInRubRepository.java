@@ -4,6 +4,8 @@ import com.andysklyarov.finnotify.domain.CurrencyInRub;
 
 import java.time.LocalDate;
 
+import io.reactivex.Single;
+
 public class CurrencyInRubRepository {
     private CurrencyInRubDataSource currencyDataSource;
 
@@ -11,11 +13,11 @@ public class CurrencyInRubRepository {
         currencyDataSource = dataSource;
     }
 
-    public CurrencyInRub getCurrencyOnDate(LocalDate date) {
+    public Single<CurrencyInRub> getCurrencyOnDate(LocalDate date) {
         return currencyDataSource.getCurrencyOnDate(date);
     }
 
-    public LocalDate getLastDate() {
+    public Single<LocalDate> getLastDate() {
         return currencyDataSource.getLastDate();
     }
 }

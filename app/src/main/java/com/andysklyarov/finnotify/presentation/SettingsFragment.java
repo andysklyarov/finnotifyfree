@@ -24,7 +24,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.ArrayList;
 
 public class SettingsFragment extends Fragment {
-    private MainActivityViewModel viewModel = null;
+    private MainViewModel viewModel = null;
     private boolean isSettingsSave = false;
     private View view;
 
@@ -37,7 +37,7 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         final FragmentActivity activity = requireActivity();
-        viewModel = new ViewModelProvider(activity).get(MainActivityViewModel.class);
+        viewModel = new ViewModelProvider(activity).get(MainViewModel.class);
 
         SettingsFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.settings_fragment, container, false);
         binding.setViewModel(viewModel);

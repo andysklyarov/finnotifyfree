@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.andysklyarov.finnotify.interactors.Interactors;
-import com.andysklyarov.finnotify.presentation.MainActivityViewModel;
+import com.andysklyarov.finnotify.presentation.MainViewModel;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -30,7 +30,7 @@ import java.lang.reflect.InvocationTargetException;
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
 
-        if (modelClass == MainActivityViewModel.class) {
+        if (modelClass == MainViewModel.class) {
             try {
                 return modelClass.getConstructor(Application.class, Interactors.class).newInstance(application, useCase);
             } catch (IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {

@@ -1,28 +1,5 @@
 <resources>
     <string name="app_name">FinNotify</string>
-    <string name="start_service">Start service</string>
-    <string name="stop_service">Stop service</string>
-    <string name="your_message">From BootReciver</string>
-
+    <string name="update_on">Курс на</string>
     <item name="bound_observable" type="id" />
-
-
-    <string name="shr_hint_username">Username</string>
-    <string name="shr_hint_password">Password</string>
-    <string name="shr_button_next">Next</string>
-    <string name="shr_button_cancel">Cancel</string>
-    <string name="shr_error_password">Password must contain at least 8 characters.</string>
-    <string name="shr_filter_title">Filter</string>
-    <string name="shr_search_title">Search</string>
-    <string name="shr_product_title">Title</string>
-    <string name="shr_product_description">Secondary text</string>
-
-    <string name="shr_featured_label">Featured</string>
-    <string name="shr_apartment_label">Apartment</string>
-    <string name="shr_accessories_label">Accessories</string>
-    <string name="shr_shoes_label">Shoes</string>
-    <string name="shr_tops_label">Tops</string>
-    <string name="shr_bottoms_label">Bottoms</string>
-    <string name="shr_dresses_label">Dresses</string>
-    <string name="shr_account_label">My Account</string>
 </resources>

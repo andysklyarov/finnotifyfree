@@ -4,8 +4,11 @@ import com.andysklyarov.finnotify.domain.CurrencyInRub;
 
 import java.time.LocalDate;
 
-public interface CurrencyInRubDataSource {
-    CurrencyInRub getCurrencyOnDate(LocalDate date);
+import io.reactivex.Single;
 
-    LocalDate getLastDate();
+public interface CurrencyInRubDataSource {
+
+    Single<CurrencyInRub> getCurrencyOnDate(LocalDate date);
+
+    Single<LocalDate> getLastDate();
 }

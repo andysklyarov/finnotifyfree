@@ -11,6 +11,9 @@ import android.preference.PreferenceManager;
 
 import androidx.annotation.NonNull;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 public class AlarmServiceManager {
@@ -41,14 +44,25 @@ public class AlarmServiceManager {
 
         PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 
-        long currentTimeMillis = timeToStart.toInstant().toEpochMilli();
+        ZoneId zoneId= ZoneId.systemDefault();
+        long currentTimeMillis;
+
+        if (timeToStart.isAfter(ZonedDateTime.now(zoneId))) {
+            currentTimeMillis = timeToStart.toInstant().toEpochMilli();
+        } else {
+            currentTimeMillis = timeToStart.toLocalDate()
+                    .plusDays(1)
+                    .atStartOfDay(zoneId)
+                    .toInstant()
+                    .toEpochMilli();
+        }
 
         if (manager != null) {
             manager.setRepeating(AlarmManager.RTC_WAKEUP, currentTimeMillis, AlarmManager.INTERVAL_DAY, alarmIntent);
 
             state = new ServiceState(true, currentTimeMillis, topLimit, bottomLimit);
-            safeServiceData();
 
+            safeServiceData();
             enableBootReceiver();
         }
     }
