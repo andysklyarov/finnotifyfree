@@ -6,7 +6,7 @@ public class DiffCurrencyInRub extends CurrencyInRub {
 
     public final float diff;
 
-    public DiffCurrencyInRub(String name, LocalDate date, int denomination, float value, float diff) {
+    public DiffCurrencyInRub(CurrencyName name, LocalDate date, int denomination, float value, float diff) {
         super(name, date, denomination, value);
         this.diff = diff;
     }

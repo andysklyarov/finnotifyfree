@@ -17,28 +17,31 @@ import com.andysklyarov.finnotify.framework.MainApplication;
 import com.andysklyarov.finnotify.interactors.Interactors;
 import com.andysklyarov.finnotify.presentation.MainActivity;
 
-import java.time.LocalDate;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onReceive(Context context, Intent intent) {
 
         MainApplication app = (MainApplication) context.getApplicationContext();
         Interactors interactors = app.getInteractors();
 
-        Disposable res = interactors.getLastCurrency()
+        float upLimit = intent.getFloatExtra(AlarmServiceManager.TOP_LIMIT_KEY, 0);
+        float downLimit = intent.getFloatExtra(AlarmServiceManager.BOTTOM_LIMIT_KEY, 0);
+
+        String code = intent.getStringExtra(AlarmServiceManager.CURRENCY_CODE_KEY);
+        if (code == null || code.isEmpty()) {
+//            code = app.getString(R.string.default_currency_code);
+            code = "AUD";
+        }
+
+        Disposable res = interactors.getLastCurrency(code)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(currencyInRub -> {
-                    float upLimit = intent.getFloatExtra(AlarmServiceManager.TOP_LIMIT_KEY, 0);
-                    float downLimit = intent.getFloatExtra(AlarmServiceManager.BOTTOM_LIMIT_KEY, 0);
-
                     notify(context, currencyInRub, upLimit, downLimit);
                 });
     }
@@ -48,8 +51,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         if (curs.value > upLimit || curs.value < downLimit) {
             NotificationCompat.Builder notification = new NotificationCompat.Builder(context, "1")
                     .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentTitle("Dollar alert!!!") // todo change
-                    .setContentText(" 1 USD = " + curs.value + " RUB") // todo change
+                    .setContentTitle(curs.name.fullName)
+                    .setContentText(curs.denomination + " " + curs.name.code + " = " + curs.value + " RUB " + "Limit " + " " + upLimit + " " + downLimit)
                     .setContentIntent(PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT))
                     .setAutoCancel(true)
                     .setOngoing(false);
@@ -59,7 +62,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             }
             NotificationChannel mChannel = notifyManager.getNotificationChannel("0");
             if (mChannel == null) {
-                mChannel = new NotificationChannel("1", "title", NotificationManager.IMPORTANCE_HIGH);
+                mChannel = new NotificationChannel("1", "title", NotificationManager.IMPORTANCE_DEFAULT);
                 notifyManager.createNotificationChannel(mChannel);
             }
             notifyManager.notify(333, notification.build());

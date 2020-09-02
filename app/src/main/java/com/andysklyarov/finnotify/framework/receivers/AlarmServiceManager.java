@@ -5,23 +5,21 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Calendar;
-import java.util.Date;
 
 public class AlarmServiceManager {
 
-    public final static String TIME_IN_MILLIS_KEY = "TIME_IN_MILLIS";
-    public final static String TOP_LIMIT_KEY = "TOP_LIMIT";
-    public final static String BOTTOM_LIMIT_KEY = "BOTTOM_LIMIT";
-    private final static String SERVICE_STATUS_KEY = "SERVICE_STATUS";
+    public final static String TIME_IN_MILLIS_KEY = "TIME_IN_MILLIS_KEY";
+    public final static String TOP_LIMIT_KEY = "TOP_LIMIT_KEY";
+    public final static String BOTTOM_LIMIT_KEY = "BOTTOM_LIMIT_KEY";
+    public final static String CURRENCY_CODE_KEY = "CURRENCY_CODE_KEY";
+    private final static String SERVICE_STATUS_KEY = "SERVICE_STATUS_KEY";
 
     private Context context;
     private AlarmManager manager;
@@ -48,15 +46,16 @@ public class AlarmServiceManager {
     }
 
 
-    public void startRepeatingService(float topLimit, float bottomLimit) {
+    public void startRepeatingService(String currencyCode, float topLimit, float bottomLimit) {
         Intent intent = new Intent(context, AlarmReceiver.class);
+
+        intent.putExtra(CURRENCY_CODE_KEY, currencyCode);
         intent.putExtra(TOP_LIMIT_KEY, topLimit);
         intent.putExtra(BOTTOM_LIMIT_KEY, bottomLimit);
 
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         long currentTimeMillis = alarmTime.toInstant().toEpochMilli();
-
         if (manager != null) {
             manager.setRepeating(AlarmManager.RTC_WAKEUP, currentTimeMillis, AlarmManager.INTERVAL_DAY, alarmIntent);
 

@@ -13,13 +13,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.CurrencyFragment">
+        tools:context=".presentation.CurrencyFragment"
+        app:background="@{viewModel.backgroundRes}"
+        >
 
-        <ImageView
-            style="@style/Theme.CoinsTest.BackgroundImage"
-            android:contentDescription="Background"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+<!--        <ImageView-->
+<!--            style="@style/Theme.CoinsTest.BackgroundImage"-->
+<!--            android:contentDescription="Background"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
         <Button
             android:id="@+id/back_button"
@@ -40,7 +42,7 @@
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:layout_marginTop="54dp"
-            android:text="@{viewModel.nowCurrency.name}"
+            android:text="@{viewModel.nowCurrency.name.code}"
             android:textAlignment="center"
             android:textSize="32dp"
             android:textStyle="bold"

@@ -3,6 +3,7 @@ package com.andysklyarov.finnotify.framework.soap;
 import androidx.annotation.NonNull;
 
 import com.andysklyarov.finnotify.domain.CurrencyInRub;
+import com.andysklyarov.finnotify.domain.CurrencyName;
 import com.andysklyarov.finnotify.framework.database.CurrencyDao;
 import com.andysklyarov.finnotify.framework.database.CurrencyOnDate;
 import com.andysklyarov.finnotify.framework.database.DbUtils;
@@ -29,6 +30,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 
 import io.reactivex.Single;
@@ -65,7 +67,7 @@ public final class SoapCbrUtils {
                 });
     }
 
-    public static Single<CurrencyInRub> getCurrencyOnDate(String currencyName, LocalDate date) {
+    public static Single<CurrencyInRub> getCurrencyOnDate(String currencyCode, LocalDate date) {
         RequestGetCursOnDateXMLEnvelope envelope = new RequestGetCursOnDateXMLEnvelope();
         RequestGetCursOnDateXMLBody body = new RequestGetCursOnDateXMLBody();
         RequestGetCursOnDateXMLData data = new RequestGetCursOnDateXMLData();
@@ -80,7 +82,7 @@ public final class SoapCbrUtils {
                 .getCursOnDateXML(envelope)
                 .doOnSuccess(response -> writeCurrencyToDb(formattedDate, response))
                 .onErrorReturn(throwable -> getCurrencyFromDbOrNull(date, throwable))
-                .map(response -> getCurrencyInRub(currencyName, response));
+                .map(response -> getCurrencyInRub(currencyCode, response));
     }
 
     private static void writeLastDateToDb(ResponseLatestDateTimeEnvelope response) {
@@ -189,7 +191,7 @@ public final class SoapCbrUtils {
     }
 
     @NonNull
-    private static CurrencyInRub getCurrencyInRub(String currencyName, ResponseGetCursOnDateXMLEnvelope response) {
+    private static CurrencyInRub getCurrencyInRub(String currencyCode, ResponseGetCursOnDateXMLEnvelope response) {
         ResponseValuteData responseValuteData = response.getBody()
                 .getCursOnDateXMLResponse()
                 .getGetCursOnDateXMLResult()
@@ -203,12 +205,14 @@ public final class SoapCbrUtils {
 
         float currencyValueInRub = 0;
         int denomination = 0;
+        CurrencyName currencyName = new CurrencyName("Empty", "Empty");
 
         if (currencies != null) {
             for (ResponseValuteCursOnDate currency : currencies) {
-                if (currency.chCode.equals(currencyName)) {
+                if (currency.chCode.equals(currencyCode)) {
                     currencyValueInRub = parseFloat(currency.curs);
                     denomination = parseInt(currency.nom);
+                    currencyName = new CurrencyName(currency.valName.trim(), currency.chCode);
                     break;
                 }
             }

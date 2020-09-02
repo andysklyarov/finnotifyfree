@@ -12,8 +12,8 @@ import io.reactivex.Single;
 public class SoapCurrencyInRubDataSource implements CurrencyInRubDataSource {
 
     @Override
-    public Single<CurrencyInRub> getCurrencyOnDate(LocalDate date) {
-        return SoapCbrUtils.getCurrencyOnDate("USD", date);
+    public Single<CurrencyInRub> getCurrencyOnDate(String currencyCode, LocalDate date) {
+        return SoapCbrUtils.getCurrencyOnDate(currencyCode, date);
     }
 
     @Override

@@ -35,7 +35,7 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.example.coinstest", appContext.getPackageName());
+        assertEquals("com.andysklyarov.finnotify", appContext.getPackageName());
     }
 
     @Test

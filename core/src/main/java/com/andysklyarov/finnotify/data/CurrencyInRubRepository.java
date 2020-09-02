@@ -13,8 +13,8 @@ public class CurrencyInRubRepository {
         currencyDataSource = dataSource;
     }
 
-    public Single<CurrencyInRub> getCurrencyOnDate(LocalDate date) {
-        return currencyDataSource.getCurrencyOnDate(date);
+    public Single<CurrencyInRub> getCurrencyOnDate(String currencyCode, LocalDate date) {
+        return currencyDataSource.getCurrencyOnDate(currencyCode, date);
     }
 
     public Single<LocalDate> getLastDate() {

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="currencies">
+        <item>Австралийский доллар / AUD </item>
+        <item>Азербайджанский манат / AZN </item>
+        <item>Фунт стерлингов Соединенного королевства / GBP </item>
+        <item>Армянский драм / AMD </item>
+        <item>Белорусский рубль / BYN </item>
+        <item>Болгарский лев / BGN </item>
+        <item>Бразильский реал / BRL </item>
+        <item>Венгерский форинт / HUF </item>
+        <item>Гонконгский доллар / HKD </item>
+        <item>Датская крона / DKK </item>
+        <item>Доллар США / USD </item>
+        <item>Евро / EUR </item>
+        <item>Индийская рупия / INR </item>
+        <item>Казахстанский тенге / KZT </item>
+        <item>Канадский доллар / CAD </item>
+        <item>Киргизский сом / KGS </item>
+        <item>Китайский юань / CNY </item>
+        <item>Молдавский лей / MDL </item>
+        <item>Норвежская крона / NOK </item>
+        <item>Польский злотый / PLN </item>
+        <item>Румынский лей / RON </item>
+        <item>СДР (специальные права заимствования) / XDR </item>
+        <item>Сингапурский доллар / SGD </item>
+        <item>Таджикский сомони / TJS </item>
+        <item>Турецкая лира / TRY </item>
+        <item>Новый туркменский манат / TMT </item>
+        <item>Узбекский сум / UZS </item>
+        <item>Украинская гривна / UAH </item>
+        <item>Чешская крона / CZK </item>
+        <item>Шведская крона / SEK </item>
+        <item>Швейцарский франк / CHF </item>
+        <item>Южноафриканский рэнд / ZAR </item>
+        <item>Вон Республики Корея / KRW </item>
+        <item>Японская иена / JPY </item>
+    </string-array>
+</resources>

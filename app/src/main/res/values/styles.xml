@@ -16,7 +16,7 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_gravity">bottom|center</item>
         <item name="android:scaleType">fitXY</item>
-        <item name="android:src">@mipmap/background</item>
+        <item name="android:src">@mipmap/img2</item>
     </style>
 
     <style name="Theme.CoinsTest.CommonTextView" parent="Theme.CoinsTest">
@@ -70,5 +70,9 @@
         <item name="colorAccent">#FFFFFFFF</item>
     </style>
 
+    <style name="AlertDialogCustom" parent="Theme.AppCompat.DayNight.Dialog.Alert">
+        <item name="android:textColorPrimary">#C6C6C6</item>
+        <item name="android:textColorAlertDialogListItem">#BABABA</item>
+    </style>
 
 </resources>

@@ -52,4 +52,11 @@ public class ExampleUnitTest {
         alarmTime = ZonedDateTime.ofInstant(i, ZoneId.systemDefault());
         return alarmTime;
     }
+
+    @Test
+    public void trim_isCorrect() {
+        String name = "Фунт стерлингов Соединенного королевства                                                                                                                                                                                                                      ";
+        name = name.trim();
+        assertEquals("Фунт стерлингов Соединенного королевства", name);
+    }
 }

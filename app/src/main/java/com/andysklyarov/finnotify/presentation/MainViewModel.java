@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel;
 
 import com.andysklyarov.finnotify.R;
 import com.andysklyarov.finnotify.domain.CurrencyInRub;
+import com.andysklyarov.finnotify.domain.CurrencyName;
 import com.andysklyarov.finnotify.framework.receivers.AlarmServiceManager;
 import com.andysklyarov.finnotify.framework.receivers.ServiceState;
 import com.andysklyarov.finnotify.interactors.Interactors;
@@ -21,7 +22,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainViewModel extends AndroidViewModel {
-
     public static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public final ObservableField<CurrencyInRub> nowCurrency = new ObservableField<>();
@@ -36,6 +36,8 @@ public class MainViewModel extends AndroidViewModel {
     public final ObservableField<Integer> mainPartsVisibility = new ObservableField<>();
     public final ObservableField<Integer> errorVisibility = new ObservableField<>();
 
+    public final ObservableField<Integer> backgroundRes = new ObservableField<>();
+
     private Interactors interactors;
     private AlarmServiceManager alarmManager;
 
@@ -49,9 +51,9 @@ public class MainViewModel extends AndroidViewModel {
         initViewModel(interactors);
     }
 
-    public void updateData() {
+    public void updateData(String currencyCode) {
 
-        Disposable res = interactors.getLastDiffCurrency()
+        Disposable res = interactors.getLastDiffCurrency(currencyCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> isLoading.set(true))
@@ -64,6 +66,8 @@ public class MainViewModel extends AndroidViewModel {
                     else
                         diffCurrency.set(String.valueOf(diffCurrencyInRub.diff));
 
+                    setBackground(diffCurrencyInRub.diff);
+
                     mainPartsVisibility.set(View.VISIBLE);
                     errorVisibility.set(View.GONE);
                 }, throwable -> {
@@ -72,12 +76,23 @@ public class MainViewModel extends AndroidViewModel {
                 });
     }
 
+    private void setBackground(float diff) {
+        float absoluteDiff = Math.abs(diff);
+        if (absoluteDiff < 0.2) {
+            backgroundRes.set(R.mipmap.img1);
+        } else if (absoluteDiff > 0.2 && absoluteDiff < 0.4) {
+            backgroundRes.set(R.mipmap.img2);
+        } else {
+            backgroundRes.set(R.mipmap.img3);
+        }
+    }
+
     public void enableAlarm(int hour, int minutes, float topLimit, float bottomLimit) {
         this.topLimit.set(topLimit);
         this.bottomLimit.set(bottomLimit);
 
         alarmManager.setAlarmTime24(hour, minutes);
-        alarmManager.startRepeatingService(topLimit, bottomLimit);
+        alarmManager.startRepeatingService(nowCurrency.get().name.code, topLimit, bottomLimit);
         updateAlarmState();
     }
 
@@ -99,7 +114,12 @@ public class MainViewModel extends AndroidViewModel {
     }
 
     private void initViewModel(Interactors interactors) {
-        CurrencyInRub currency = new CurrencyInRub("USD", LocalDate.of(0, 1, 1), 0, 0.0f);
+        CurrencyInRub currency = new CurrencyInRub(new CurrencyName(getApplication().getString(R.string.default_currency_name),
+                getApplication().getString(R.string.default_currency_code)),
+                LocalDate.of(0, 1, 1),
+                0,
+                0.0f);
+
         nowCurrency.set(currency);
         diffCurrency.set("0");
 
@@ -109,6 +129,8 @@ public class MainViewModel extends AndroidViewModel {
         isLoading.set(false);
         mainPartsVisibility.set(View.GONE);
         errorVisibility.set(View.GONE);
+
+        backgroundRes.set(R.mipmap.img0);
 
         this.interactors = interactors;
     }

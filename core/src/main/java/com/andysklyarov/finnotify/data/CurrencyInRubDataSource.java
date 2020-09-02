@@ -8,7 +8,7 @@ import io.reactivex.Single;
 
 public interface CurrencyInRubDataSource {
 
-    Single<CurrencyInRub> getCurrencyOnDate(LocalDate date);
+    Single<CurrencyInRub> getCurrencyOnDate(String currencyCode, LocalDate date);
 
     Single<LocalDate> getLastDate();
 }

@@ -2,5 +2,8 @@
     <string name="app_name">FinNotify</string>
     <string name="update_on">Курс на</string>
     <string name="nom_string">За</string>
+    <string name="default_currency_code">USD</string>
+    <string name="default_currency_name">Доллар США</string>
+    <string name="dialog_title">Список валют</string>
     <item name="bound_observable" type="id" />
 </resources>

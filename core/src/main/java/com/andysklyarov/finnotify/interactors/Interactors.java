@@ -19,18 +19,18 @@ public final class Interactors {
         return currencyRepository.getLastDate();
     }
 
-    public Single<CurrencyInRub> getCurrencyOnDate(LocalDate date) {
-        return currencyRepository.getCurrencyOnDate(date);
+    public Single<CurrencyInRub> getCurrencyOnDate(String currencyCode, LocalDate date) {
+        return currencyRepository.getCurrencyOnDate(currencyCode, date);
     }
 
-    public Single<CurrencyInRub> getLastCurrency() {
-        return getLastDate().flatMap(this::getCurrencyOnDate);
+    public Single<CurrencyInRub> getLastCurrency(String currencyCode) {
+        return getLastDate().flatMap( localDate -> getCurrencyOnDate(currencyCode, localDate));
     }
 
-    public Single<DiffCurrencyInRub> getLastDiffCurrency() {
+    public Single<DiffCurrencyInRub> getLastDiffCurrency(String currencyCode) {
         return getLastDate()
-                .flatMap(localDate -> getCurrencyOnDate(localDate.minusDays(1))
-                        .flatMap(currencyOld -> getCurrencyOnDate(localDate)
+                .flatMap(localDate -> getCurrencyOnDate(currencyCode, localDate.minusDays(1))
+                        .flatMap(currencyOld -> getCurrencyOnDate(currencyCode, localDate)
                                 .map(currencyNew -> new DiffCurrencyInRub(currencyNew, currencyNew.value - currencyOld.value))
                         ));
     }
