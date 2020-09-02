@@ -93,10 +93,11 @@ public class SettingsFragment extends Fragment {
                 float topLimit = Float.parseFloat(textInputTopLimit.getText().toString());
                 float bottomLimit = Float.parseFloat(textInputBottomLimit.getText().toString());
 
+                TimePicker timePicker = view.findViewById(R.id.time_picker);
+
                 if (topLimit < 0) topLimit = 0;
                 if (bottomLimit < 0) bottomLimit = 0;
 
-                TimePicker timePicker = view.findViewById(R.id.time_picker);
                 int hours = timePicker.getHour();
                 int minutes = timePicker.getMinute();
 

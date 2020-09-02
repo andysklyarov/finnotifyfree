@@ -125,12 +125,18 @@ public class CurrencyFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void applyCode(int requestCode, int resultCode, String NameAndCode) {
-
         if (requestCode == DIALOG_FRAGMENT) {
             if (resultCode == Activity.RESULT_OK) {
                 currencyCode = NameAndCode.substring(NameAndCode.indexOf("/") + 1).trim();
                 onRefresh();
                 ((MainActivity)getActivity()).safeCode(currencyCode);
+
+                Bundle args = new Bundle();
+                args.putString(SAVED_CODE_KEY, currencyCode);
+                setArguments(args);
+
+                viewModel.disableAlarm();
+
             } else {
                 Toast.makeText(getContext(), "Error!!!", Toast.LENGTH_LONG).show();
             }

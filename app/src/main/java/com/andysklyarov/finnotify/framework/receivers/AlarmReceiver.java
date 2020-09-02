@@ -34,8 +34,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         String code = intent.getStringExtra(AlarmServiceManager.CURRENCY_CODE_KEY);
         if (code == null || code.isEmpty()) {
-//            code = app.getString(R.string.default_currency_code);
-            code = "AUD";
+            code = app.getString(R.string.default_currency_code);
         }
 
         Disposable res = interactors.getLastCurrency(code)
@@ -52,7 +51,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             NotificationCompat.Builder notification = new NotificationCompat.Builder(context, "1")
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle(curs.name.fullName)
-                    .setContentText(curs.denomination + " " + curs.name.code + " = " + curs.value + " RUB " + "Limit " + " " + upLimit + " " + downLimit)
+                    .setContentText(curs.denomination + " " + curs.name.code + " = " + curs.value + " RUB ")
                     .setContentIntent(PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT))
                     .setAutoCancel(true)
                     .setOngoing(false);
