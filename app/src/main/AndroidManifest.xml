@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.andysklyarov.finnotify">
+    package="com.andysklyarov.finnotifyfree">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.QUICKBOOT_POWERON" />
 
     <application
-        android:name="com.andysklyarov.finnotify.framework.MainApplication"
+        android:name="com.andysklyarov.finnotifyfree.framework.MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -18,7 +18,7 @@
         android:theme="@style/Theme.CoinsTest"
         android:usesCleartextTraffic="true">
         <activity
-            android:name="com.andysklyarov.finnotify.presentation.MainActivity"
+            android:name="com.andysklyarov.finnotifyfree.presentation.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
@@ -29,7 +29,7 @@
         </activity>
 
         <receiver
-            android:name="com.andysklyarov.finnotify.framework.receivers.AlarmReceiver"
+            android:name="com.andysklyarov.finnotifyfree.framework.receivers.AlarmReceiver"
             android:enabled="true" />
 
     </application>
