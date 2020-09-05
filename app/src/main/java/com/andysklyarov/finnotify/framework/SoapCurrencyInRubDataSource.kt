@@ -11,6 +11,13 @@ class SoapCurrencyInRubDataSource : CurrencyInRubDataSource {
         return SoapCbrUtils.getCurrencyOnDate(currencyCode, date)
     }
 
+    override fun getCurrencyOnPreviousDate(
+        currencyCode: String,
+        date: LocalDate
+    ): Single<CurrencyInRub> {
+        return SoapCbrUtils.getCurrencyOnPreviousDate(currencyCode, date)
+    }
+
     override fun getLastDate(): Single<LocalDate> {
         return SoapCbrUtils.getLastServerDate()
     }

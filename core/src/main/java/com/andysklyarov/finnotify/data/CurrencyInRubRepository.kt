@@ -10,6 +10,10 @@ class CurrencyInRubRepository(private val currencyDataSource: CurrencyInRubDataS
         return currencyDataSource.getCurrencyOnDate(currencyCode, date)
     }
 
+    fun getCurrencyOnPreviousDate(currencyCode: String, date: LocalDate): Single<CurrencyInRub> {
+        return currencyDataSource.getCurrencyOnPreviousDate(currencyCode, date)
+    }
+
     fun getLastDate(): Single<LocalDate>{
         return currencyDataSource.getLastDate()
     }

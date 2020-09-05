@@ -29,11 +29,11 @@ object HttpUtils {
 
     private fun getBasicClient(newInstance: Boolean): OkHttpClient? {
         if (newInstance || okHttpClient == null) {
-            val httpLoggingInterceptor =
-                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+//            val httpLoggingInterceptor =
+//                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
             okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(httpLoggingInterceptor) // todo clear for realise
+//                .addInterceptor(httpLoggingInterceptor) // todo clear for realise
                 .connectTimeout(2, TimeUnit.SECONDS)
                 .readTimeout(2, TimeUnit.SECONDS)
                 .build()
@@ -46,8 +46,8 @@ object HttpUtils {
         if (retrofit == null) {
             val format = Format(XML_VERSION_1_0_ENCODING_UTF_8)
             val serializer: Serializer = Persister(format)
-            retrofit = Retrofit.Builder() // todo check the sequence
-                .addConverterFactory(SimpleXmlConverterFactory.create(serializer)) // todo check the data classes
+            retrofit = Retrofit.Builder()
+                .addConverterFactory(SimpleXmlConverterFactory.create(serializer))
                 .baseUrl(BuildConfig.CBR_WEBSERV_URL.toString() + "/")
                 .client(this.okHttpClient)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

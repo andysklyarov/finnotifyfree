@@ -8,4 +8,6 @@
     <color name="loginPageBackgroundColor">#FFFFFF</color>
     <color name="textInputOutlineColor">#FBB8AC</color>
     <!--    <color name="backgroundColor">#FFFFFF</color>-->
+
+    <color name="dialog_background">#26FFFFFF</color>
 </resources>

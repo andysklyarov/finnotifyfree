@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TimePicker
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SwitchCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -17,7 +18,7 @@ import com.andysklyarov.finnotify.databinding.SettingsFragmentBinding
 import com.google.android.material.textfield.TextInputEditText
 
 
-class SettingsFragment : Fragment() {
+class SettingsFragment : Fragment(), OnBackPressed {
     lateinit var viewModel: MainViewModel
     lateinit var settingsView: View
     var isSettingsSave: Boolean = false
@@ -34,8 +35,8 @@ class SettingsFragment : Fragment() {
     ): View? {
         val binding: SettingsFragmentBinding =
             DataBindingUtil.inflate(inflater, R.layout.settings_fragment, container, false)
-        binding.setViewModel(viewModel)
-        settingsView = binding.getRoot()
+        binding.viewModel = viewModel
+        settingsView = binding.root
         return settingsView
     }
 
@@ -45,6 +46,16 @@ class SettingsFragment : Fragment() {
         initTimePicker()
         initAlarmSwitch()
         initBackButton()
+    }
+
+    override fun onBackPressed(): Boolean {
+        return if (!isSettingsSave) {
+            cancaleSettings()
+            true
+        } else {
+            saveSettings()
+            false
+        }
     }
 
     private fun initTimePicker() {
@@ -71,34 +82,41 @@ class SettingsFragment : Fragment() {
         val backButton: Button = settingsView.findViewById(R.id.back_button)
         backButton.setOnClickListener {
             if (isSettingsSave) {
-
-                if (viewModel.isServiceStarted.get()!!)
-                    viewModel.disableAlarm()
-
-                val textInputTopLimit: TextInputEditText =
-                    settingsView.findViewById(R.id.textInput_top_limit)
-                val textInputBottomLimit: TextInputEditText =
-                    settingsView.findViewById(R.id.textInput_bottom_limit)
-
-                var topLimit: Float = textInputTopLimit.text.toString().toFloat()
-                var bottomLimit: Float = textInputBottomLimit.text.toString().toFloat()
-                val timePicker: TimePicker = settingsView.findViewById(R.id.time_picker)
-
-                if (topLimit < 0)
-                    topLimit = 0f
-
-                if (bottomLimit < 0)
-                    bottomLimit = 0f
-
-                val hours = timePicker.hour
-                val minutes = timePicker.minute
-
-                viewModel.enableAlarm(hours, minutes, topLimit, bottomLimit)
+                saveSettings()
             } else {
-                viewModel.disableAlarm()
+                cancaleSettings()
             }
             requireActivity().supportFragmentManager.popBackStack()
         }
+    }
+
+    private fun saveSettings() {
+        if (viewModel.isServiceStarted.get()!!)
+            viewModel.disableAlarm()
+
+        val textInputTopLimit: TextInputEditText =
+            settingsView.findViewById(R.id.textInput_top_limit)
+        val textInputBottomLimit: TextInputEditText =
+            settingsView.findViewById(R.id.textInput_bottom_limit)
+
+        var topLimit: Float = textInputTopLimit.text.toString().toFloat()
+        var bottomLimit: Float = textInputBottomLimit.text.toString().toFloat()
+        val timePicker: TimePicker = settingsView.findViewById(R.id.time_picker)
+
+        if (topLimit < 0)
+            topLimit = 0f
+
+        if (bottomLimit < 0)
+            bottomLimit = 0f
+
+        val hours = timePicker.hour
+        val minutes = timePicker.minute
+
+        viewModel.enableAlarm(hours, minutes, topLimit, bottomLimit)
+    }
+
+    private fun cancaleSettings() {
+        viewModel.disableAlarm()
     }
 
     private fun setSettingsVisibility(isVisible: Boolean) {

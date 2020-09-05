@@ -1,9 +1,24 @@
 <resources>
-    <string name="app_name">FinNotify</string>
+    <string name="app_name">FinNotify Free</string>
     <string name="update_on">Курс на</string>
     <string name="nom_string">За</string>
     <string name="default_currency_code">USD</string>
     <string name="default_currency_name">Доллар США</string>
-    <string name="dialog_title">Список валют</string>
+    <string name="names_dialog_title">Список валют</string>
+    <string name="info_dialog_title">Источник данных ЦБ РФ</string>
+
+    <string name="info_dialog_text">В соответствии со статьей 53 ФЗ № 86-ФЗ
+        от 10 июля 2002 года «О Центральном банке Российской Федерации (Банке России)» (далее ЦБ РФ)
+        функции установки и публикации официального курса иностранных валют возложены на ЦБ РФ.
+        Курс валюты равен средневзвешенному значению биржевых котировок в рамках Единой торговой
+        сессии с расчетом на следующий день. Официальный курс выступает в роли «опорной» величины
+        для установки цен на иностранную валюту коммерческих банков. ЦБ РФ устанавливает фициальный
+        курс валют на «завтра» в конце рабочего дня.
+    </string>
+    <string name="top_limit">Верхний предел</string>
+    <string name="bottom_limit">Нижний предел</string>
+    <string name="set_alarm">Уведомления</string>
+    <string name="rub">RUB</string>
+
     <item name="bound_observable" type="id" />
 </resources>

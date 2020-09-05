@@ -17,16 +17,10 @@
         app:background="@{viewModel.backgroundRes}"
         >
 
-<!--        <ImageView-->
-<!--            style="@style/Theme.CoinsTest.BackgroundImage"-->
-<!--            android:contentDescription="Background"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
-
         <Button
             android:id="@+id/back_button"
             style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="40dp"
+            android:layout_width="48dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="26dp"
             android:layout_marginTop="54dp"
@@ -37,14 +31,14 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/currency_name"
+            android:id="@+id/currency_code"
             style="@style/Theme.CoinsTest.CommonTextView"
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:layout_marginTop="54dp"
             android:text="@{viewModel.nowCurrency.name.code}"
             android:textAlignment="center"
-            android:textSize="32dp"
+            android:textSize="32sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -65,9 +59,9 @@
             style="@style/Theme.CoinsTest.TextView"
             android:layout_marginStart="48dp"
             android:layout_marginTop="12dp"
-            android:text="Set alarm"
+            android:text="@string/set_alarm"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/currency_name" />
+            app:layout_constraintTop_toBottomOf="@+id/currency_code" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/alarm_switch"
@@ -106,7 +100,7 @@
             style="@style/Theme.CoinsTest.TextView"
             android:layout_marginStart="48dp"
             android:layout_marginTop="12dp"
-            android:text="Top limit"
+            android:text="@string/top_limit"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/image_separator_2" />
 
@@ -120,7 +114,7 @@
             android:text="@{viewModel.topLimit.toString()}"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
-            android:textSize="18dp"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/text_top_limit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/text_top_limit" />
@@ -139,7 +133,7 @@
             style="@style/Theme.CoinsTest.TextView"
             android:layout_marginStart="48dp"
             android:layout_marginTop="12dp"
-            android:text="Bottom limit"
+            android:text="@string/bottom_limit"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/image_separator_3" />
 
@@ -153,7 +147,7 @@
             android:text="@{viewModel.bottomLimit.toString()}"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
-            android:textSize="18dp"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/text_bottom_limit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/text_bottom_limit" />

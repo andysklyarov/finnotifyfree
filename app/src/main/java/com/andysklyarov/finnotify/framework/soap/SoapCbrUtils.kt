@@ -1,7 +1,9 @@
 package com.andysklyarov.finnotify.framework.soap
 
+import android.widget.Toast
 import com.andysklyarov.finnotify.domain.CurrencyInRub
 import com.andysklyarov.finnotify.domain.CurrencyName
+import com.andysklyarov.finnotify.framework.MainApplication
 import com.andysklyarov.finnotify.framework.database.CurrencyDao
 import com.andysklyarov.finnotify.framework.database.CurrencyDatabase
 import com.andysklyarov.finnotify.framework.database.CurrencyOnDate
@@ -9,11 +11,6 @@ import com.andysklyarov.finnotify.framework.database.LastDate
 import com.andysklyarov.finnotify.framework.soap.GetCursOnDateXML.*
 import com.andysklyarov.finnotify.framework.soap.GetLatestDateTime.*
 import io.reactivex.Single
-import org.simpleframework.xml.Serializer
-import org.simpleframework.xml.core.Persister
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory
-import java.io.ByteArrayOutputStream
-import java.io.OutputStream
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -51,10 +48,31 @@ object SoapCbrUtils {
             .map { response -> getCurrencyInRub(currencyCode, response) }
     }
 
+    fun getCurrencyOnPreviousDate(
+        currencyCode: String,
+        date: LocalDate
+    ): Single<CurrencyInRub> { //todo avoid duct tape
+        val formattedDate = getInputDateTimeString(date.minusDays(1))
+        val data = RequestGetCursOnDateXMLData(formattedDate)
+        val body = RequestGetCursOnDateXMLBody(data)
+        val envelope = RequestGetCursOnDateXMLEnvelope(body)
+
+        return HttpUtils.soapApi
+            .getCursOnDateXML(envelope)
+            .doOnSuccess { response ->
+                writeCurrencyPreviousDayToDb(
+                    formattedDate,
+                    response
+                )
+            }  // duct tape
+            .onErrorReturn { throwable -> getCurrencyFromDbOrNull(date.minusDays(1), throwable) }
+            .map { response -> getCurrencyInRub(currencyCode, response) }
+    }
+
     private fun writeLastDateToDb(response: ResponseLatestDateTimeEnvelope) {
         val dao: CurrencyDao = CurrencyDatabase.getDatabase().getCurrencyDao()
         val dateTime = response.body?.latestDateTimeDataResponse?.dateTime
-        dao.insertLastDate(LastDate(0, dateTime!!))
+        dao.insertLastDate(LastDate(0, dateTime!!)) //todo avoid duct tape
     }
 
     private fun getLastDateFromDb(throwable: Throwable): ResponseLatestDateTimeEnvelope? {
@@ -78,6 +96,29 @@ object SoapCbrUtils {
 
     private fun getFormattedDateString(date: LocalDate, format: String): String {
         return DateTimeFormatter.ofPattern(format).format(date)
+    }
+
+    private fun writeCurrencyPreviousDayToDb( //todo avoid duct tape
+        formattedDate: String,
+        response: ResponseGetCursOnDateXMLEnvelope
+    ) {
+        val dao: CurrencyDao = CurrencyDatabase.getDatabase().getCurrencyDao()
+        val currencies = response.body
+            ?.cursOnDateXMLResponse
+            ?.getCursOnDateXMLResult
+            ?.valuteData
+            ?.valuteCurses
+
+        for (i in currencies!!.indices) {
+            val (valName, nom, curs, code, chCode) = currencies[i]
+
+            val id = i.toLong() + currencies.size
+
+            val currencyOnDate = CurrencyOnDate(
+                id, valName, nom, curs, code, chCode, formattedDate
+            )
+            dao.insertCurrencyOnDate(currencyOnDate)
+        }
     }
 
     private fun writeCurrencyToDb(

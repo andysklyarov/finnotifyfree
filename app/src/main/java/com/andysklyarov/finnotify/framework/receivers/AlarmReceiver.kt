@@ -54,7 +54,7 @@ class AlarmReceiver : BroadcastReceiver() {
             val notification = NotificationCompat.Builder(context, "1")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(curs.name.fullName)
-                .setContentText(curs.denomination.toString() + " " + curs.name.code + " " + curs.value + " RUB ")
+                .setContentText(curs.denomination.toString() + " " + curs.name.code + " = " + curs.value + " RUB ")
                 .setContentIntent(
                     PendingIntent.getActivity(
                         context,

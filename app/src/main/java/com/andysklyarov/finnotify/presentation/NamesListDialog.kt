@@ -31,20 +31,20 @@ class NamesListDialog : AppCompatDialogFragment() {
         val builder = AlertDialog.Builder(activity, R.style.AlertDialogCustom)
 
         val inflater = activity?.layoutInflater
-        val view = inflater?.inflate(R.layout.dialog_layout, null)
+        val view = inflater?.inflate(R.layout.names_dialog_layout, null)
 
         builder.setView(view)
-            .setTitle(R.string.dialog_title)
+            .setTitle(R.string.names_dialog_title)
             .setItems(R.array.currencies){ _, i ->
                 val code = resources.getStringArray(R.array.currencies)[i]
                 listener.applyCode(targetRequestCode, Activity.RESULT_OK, code)
             }
 
         val dialog = builder.create()
-        dialog.window?.setDimAmount(0.85f)
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.window?.setDimAmount(resources.getFloat(R.dimen.dialog_dim_amount))
+        dialog.window?.setBackgroundDrawableResource(R.color.dialog_background)
 
-        return dialog;
+        return dialog
     }
 
     interface NamesListDialogListener {

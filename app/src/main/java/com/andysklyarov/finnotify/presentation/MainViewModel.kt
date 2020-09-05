@@ -2,6 +2,7 @@ package com.andysklyarov.finnotify.presentation
 
 import android.app.Application
 import android.view.View
+import android.widget.Toast
 import androidx.databinding.ObservableField
 import androidx.lifecycle.AndroidViewModel
 import com.andysklyarov.finnotify.R
@@ -41,6 +42,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     constructor(application: Application, interactors: Interactors) : this(application) {
         initViewModel(interactors);
+
+        val imgResId = (application as MainApplication).loadImgRes()
+        backgroundRes.set(imgResId)
     }
 
     fun updateData(currencyCode: String) {
@@ -55,7 +59,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 if (diffCurrencyInRub.diff > 0) diffCurrency.set("+" + diffCurrencyInRub.diff) else diffCurrency.set(
                     diffCurrencyInRub.diff.toString()
                 )
-
                 setBackground(diffCurrencyInRub.diff)
                 mainPartsVisibility.set(View.VISIBLE)
                 errorVisibility.set(View.GONE)
@@ -64,17 +67,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 mainPartsVisibility.set(View.GONE)
                 errorVisibility.set(View.VISIBLE)
             }
-    }
-
-    private fun setBackground(diff: Float) {
-        val absoluteDiff = abs(diff)
-        if (absoluteDiff < 0.2) {
-            backgroundRes.set(R.mipmap.img1)
-        } else if (absoluteDiff > 0.2 && absoluteDiff < 0.4) {
-            backgroundRes.set(R.mipmap.img2)
-        } else {
-            backgroundRes.set(R.mipmap.img3)
-        }
     }
 
     fun enableAlarm(hour: Int, minutes: Int, topLimit: Float, bottomLimit: Float) {
@@ -122,7 +114,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         isLoading.set(false)
         mainPartsVisibility.set(View.GONE)
         errorVisibility.set(View.GONE)
-        backgroundRes.set(R.mipmap.img0)
 
         this.interactors = interactors
     }
@@ -133,6 +124,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         topLimit.set(state.topLimit)
         bottomLimit.set(state.bottomLimit)
         isServiceStarted.set(state.isStarted)
+    }
+
+    private fun setBackground(diff: Float) {
+        val absoluteDiff = abs(diff)
+        if (absoluteDiff < 0.2) { // todo add to settings
+            backgroundRes.set(R.mipmap.img1)
+        } else if (absoluteDiff > 0.2 && absoluteDiff < 0.4) {
+            backgroundRes.set(R.mipmap.img2)
+        } else {
+            backgroundRes.set(R.mipmap.img3)
+        }
     }
 
 }

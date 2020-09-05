@@ -15,6 +15,10 @@ class Interactors(private val currencyInRubRepository: CurrencyInRubRepository) 
         return currencyInRubRepository.getCurrencyOnDate(currencyCode, date)
     }
 
+    fun getCurrencyOnPreviousDate(currencyCode: String, date: LocalDate): Single<CurrencyInRub> {
+        return currencyInRubRepository.getCurrencyOnPreviousDate(currencyCode, date)
+    }
+
     fun getLastCurrency(currencyCode: String): Single<CurrencyInRub> {
         return getLastDate().flatMap { localDate -> getCurrencyOnDate(currencyCode, localDate) }
     }
@@ -22,7 +26,7 @@ class Interactors(private val currencyInRubRepository: CurrencyInRubRepository) 
     fun getLastDiffCurrency(currencyCode: String): Single<DiffCurrencyInRub> {
         return getLastDate()
             .flatMap { localDate ->
-                getCurrencyOnDate(currencyCode, localDate.minusDays(1))
+                getCurrencyOnPreviousDate(currencyCode, localDate) //todo avoid duct tape
                     .flatMap { currencyOld ->
                         getCurrencyOnDate(currencyCode, localDate)
                             .map { currencyNew: CurrencyInRub ->

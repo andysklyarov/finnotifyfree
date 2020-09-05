@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -15,8 +16,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.andysklyarov.finnotify.R
 import com.andysklyarov.finnotify.databinding.CurrencyFragmentBinding
 import com.andysklyarov.finnotify.framework.ApplicationViewModelFactory
+import com.andysklyarov.finnotify.framework.MainApplication
 import com.google.android.material.button.MaterialButton
-
 
 class CurrencyFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     NamesListDialog.NamesListDialogListener {
@@ -51,14 +52,12 @@ class CurrencyFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val activity = requireActivity()
-
         val binding: CurrencyFragmentBinding =
             DataBindingUtil.inflate(inflater, R.layout.currency_fragment, container, false)
         binding.viewModel = viewModel
-        binding.lifecycleOwner = activity
+        binding.lifecycleOwner = requireActivity()
 
-        return binding.getRoot()
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -71,8 +70,14 @@ class CurrencyFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
             navigationHost.navigateTo(SettingsFragment(), true)
         }
 
-        val textView: TextView = view.findViewById(R.id.currency_name)
-        textView.setOnClickListener { v: View? -> openDialog() }
+        val textViewCode: TextView = view.findViewById(R.id.currency_code)
+        textViewCode.setOnClickListener { openNamesDialog() }
+
+        val textViewName: TextView = view.findViewById(R.id.currency_rus_name)
+        textViewName.setOnClickListener { openNamesDialog() }
+
+        val infoButton: Button = view.findViewById(R.id.info_button)
+        infoButton.setOnClickListener { openInfoDialog() }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -87,24 +92,29 @@ class CurrencyFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         viewModel.updateData(currencyCode)
     }
 
-    private fun openDialog() {
-        val activity = activity
+    private fun openNamesDialog() {
         val namesListDialog = NamesListDialog()
         namesListDialog.setTargetFragment(this, DIALOG_FRAGMENT)
-        namesListDialog.show(activity!!.supportFragmentManager, "names dialog")
+        namesListDialog.show(requireActivity().supportFragmentManager, "names dialog")
+    }
+
+    private fun openInfoDialog() {
+        val infoDialog = InfoTextDialog()
+        infoDialog.setTargetFragment(this, DIALOG_FRAGMENT)
+        infoDialog.show(requireActivity().supportFragmentManager, "info dialog")
     }
 
     override fun onRefresh() {
         swipeRefreshLayout.post { viewModel.updateData(currencyCode) }
     }
 
-    override fun applyCode(requestCode: Int, resultCode: Int, NameAndCode: String) {
+    override fun applyCode(requestCode: Int, resultCode: Int, NameAndCode: String) { // todo clean code here
         if (requestCode == DIALOG_FRAGMENT) {
             if (resultCode == Activity.RESULT_OK) {
                 currencyCode = NameAndCode.substring(NameAndCode.indexOf("/") + 1).trim()
                 onRefresh()
 
-                (activity as MainActivity).safeCode(currencyCode)
+                (activity?.application as MainApplication).saveCode(currencyCode)
 
                 val args = Bundle()
                 args.putString(SAVED_CODE_KEY, currencyCode)
@@ -115,5 +125,10 @@ class CurrencyFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
                 Toast.makeText(context, "Error!!!", Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    override fun onStop(){
+        super.onStop()
+        (activity?.application as MainApplication).saveImgRes(viewModel.backgroundRes.get()!!)
     }
 }

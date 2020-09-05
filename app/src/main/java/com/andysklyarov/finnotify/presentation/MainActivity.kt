@@ -1,14 +1,15 @@
 package com.andysklyarov.finnotify.presentation
 
 import android.os.Bundle
+import android.os.StrictMode
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.preference.PreferenceManager
+import com.andysklyarov.finnotify.BuildConfig
 import com.andysklyarov.finnotify.R
-
-private const val SAVED_CODE_SHARED_PREFERENCES_KEY = "SAVED_CODE_SHARED_PREFERENCES_KEY"
+import com.andysklyarov.finnotify.framework.MainApplication
 
 class MainActivity : AppCompatActivity(), NavigationHost {
 
@@ -16,13 +17,33 @@ class MainActivity : AppCompatActivity(), NavigationHost {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        if (BuildConfig.DEBUG) {
+            StrictMode.setThreadPolicy(
+                StrictMode.ThreadPolicy.Builder()
+                    .detectDiskReads()
+                    .detectDiskWrites()
+                    .detectNetwork()
+                    .penaltyLog()
+                    .penaltyFlashScreen()
+                    .build()
+            )
+            StrictMode.setVmPolicy(
+                StrictMode.VmPolicy.Builder()
+                    .detectLeakedSqlLiteObjects()
+                    .detectLeakedClosableObjects()
+                    .penaltyLog()
+                    .penaltyDeath()
+                    .build()
+            )
+        }
+
         val w = window;
         w.setFlags(
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-        );
+        )
 
-        val code = loadCode();
+        val code = (application as MainApplication).loadCode();
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .add(R.id.container, CurrencyFragment.newInstance(code))
@@ -41,18 +62,11 @@ class MainActivity : AppCompatActivity(), NavigationHost {
         transaction.commit()
     }
 
-    private fun loadCode(): String {
-        val myPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        return myPreferences.getString(
-            SAVED_CODE_SHARED_PREFERENCES_KEY,
-            getString(R.string.default_currency_code)
-        )!!
-    }
-
-    fun safeCode(code: String) {
-        val myPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val myEditor = myPreferences.edit()
-        myEditor.putString(SAVED_CODE_SHARED_PREFERENCES_KEY, code)
-        myEditor.apply()
+    override fun onBackPressed() {
+        val fragment =
+            this.supportFragmentManager.findFragmentById(R.id.container)
+        (fragment as? OnBackPressed)?.onBackPressed()?.takeIf { !it }.let {
+            super.onBackPressed()
+        }
     }
 }
