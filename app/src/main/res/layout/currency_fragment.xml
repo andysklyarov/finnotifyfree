@@ -5,9 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="java.time.format.DateTimeFormatter" />
+
         <variable
             name="viewModel"
-            type="com.andysklyarov.finnotifyfree.presentation.MainViewModel" />
+            type="com.andysklyarov.finnotifyfree.ui.MainViewModel" />
     </data>
 
 
@@ -36,7 +39,7 @@
                 android:layout_height="match_parent"
                 android:background="#00000000"
                 android:visibility="@{viewModel.mainPartsVisibility}"
-                tools:context=".presentation.CurrencyFragment">
+                tools:context=".ui.CurrencyFragment">
 
                 <Button
                     android:id="@+id/settings_button"
@@ -70,7 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="54dp"
-                    android:text="@{viewModel.nowCurrency.name.code}"
+                    android:text="@{viewModel.currency.chCode}"
                     android:textAlignment="center"
                     android:textSize="32sp"
                     android:textStyle="bold"
@@ -87,7 +90,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="29dp"
                     android:layout_marginTop="124dp"
-                    android:text="@{viewModel.getDatePreamble() + ' ' + viewModel.nowCurrency.date.format(viewModel.DATE_FORMAT)}"
+                    android:text='@{viewModel.getDatePreamble() + " " + viewModel.currency.date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))}'
                     android:textAlignment="center"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -104,7 +107,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="19dp"
-                    android:text="@{viewModel.nowCurrency.name.fullName}"
+                    android:text="@{viewModel.currency.fullName}"
                     android:textAlignment="center"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -112,8 +115,7 @@
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/currency_date"
-                    tools:text = "Доллар США"
-                    />
+                    tools:text="Доллар США" />
 
                 <TextView
                     android:id="@+id/currency_diff"
@@ -135,7 +137,7 @@
                     android:layout_height="115dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="424dp"
-                    android:text="@{Float.toString(viewModel.nowCurrency.value)}"
+                    android:text="@{Float.toString(viewModel.currency.value)}"
                     android:textSize="96sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -147,7 +149,7 @@
                     android:layout_height="36dp"
                     android:layout_marginTop="580dp"
                     android:layout_marginEnd="24dp"
-                    android:text="@{viewModel.getNomPreamble(viewModel.nowCurrency.denomination, viewModel.nowCurrency.name.code)}"
+                    android:text="@{viewModel.getNomPreamble(viewModel.currency.nom, viewModel.currency.chCode)}"
                     android:textSize="24sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

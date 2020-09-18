@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="error" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6b8d2590-1066-4f52-a050-185b88e9133f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/di/AppComponent.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/di/AppModule.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/di/NetworkModule.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/di/RepositoryModule.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/di/UsecaseModule.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/consumer-rules.pro" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/proguard-rules.pro" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/src/androidTest/java/com/andysklyarov/data/ExampleInstrumentedTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/src/main/AndroidManifest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/src/main/java/com/andysklyarov/data/repository/CurrencyInRubServerRepository.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/src/main/java/com/andysklyarov/data/repository/TimeFormatUtils.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/src/test/java/com/andysklyarov/data/ExampleUnitTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/domain/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/domain/src/main/java/com/andysklyarov/domain/ExceptionUtils.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/domain/src/main/java/com/andysklyarov/domain/model/CurrencyInRub.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/domain/src/main/java/com/andysklyarov/domain/repository/CurrencyInRubRepository.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/domain/src/main/java/com/andysklyarov/domain/usecase/CurrencyUsecase.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/domain/src/main/java/com/andysklyarov/domain/usecase/CurrencyUsecaseImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/androidTest/java/com/andysklyarov/finnotifyfree/ExampleInstrumentedTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/androidTest/java/com/andysklyarov/finnotifyfree/ExampleInstrumentedTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/framework/ApplicationViewModelFactory.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/framework/MainApplication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/AppDelegate.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/framework/SoapCurrencyInRubDataSource.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/framework/database/CurrencyDao.kt" beforeDir="false" afterPath="$PROJECT_DIR$/data/src/main/java/com/andysklyarov/data/database/CurrencyDao.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/framework/database/CurrencyOnDate.kt" beforeDir="false" afterPath="$PROJECT_DIR$/data/src/main/java/com/andysklyarov/data/database/CurrencyOnDate.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/framework/database/DataBase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/data/src/main/java/com/andysklyarov/data/database/DataBase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/framework/database/DbUtils.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/framework/database/LastDate.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/framework/receivers/AlarmReceiver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/alarm/AlarmReceiver.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/framework/receivers/AlarmServiceManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/alarm/AlarmServiceManager.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/framework/receivers/ServiceState.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/alarm/ServiceState.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/framework/soap/GetCursOnDateXML/RequestGetCursOnDateXML.kt" beforeDir="false" afterPath="$PROJECT_DIR$/data/src/main/java/com/andysklyarov/data/soap/GetCursOnDateXML/RequestGetCursOnDateXML.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/framework/soap/GetCursOnDateXML/ResponseGetCursOnDateXML.kt" beforeDir="false" afterPath="$PROJECT_DIR$/data/src/main/java/com/andysklyarov/data/soap/GetCursOnDateXML/ResponseGetCursOnDateXML.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/framework/soap/GetLatestDateTime/RequestLatestDateTime.kt" beforeDir="false" afterPath="$PROJECT_DIR$/data/src/main/java/com/andysklyarov/data/soap/GetLatestDateTime/RequestLatestDateTime.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/framework/soap/GetLatestDateTime/ResponseLatestDateTime.kt" beforeDir="false" afterPath="$PROJECT_DIR$/data/src/main/java/com/andysklyarov/data/soap/GetLatestDateTime/ResponseLatestDateTime.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/framework/soap/HttpUtils.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/framework/soap/SoapCbrApi.kt" beforeDir="false" afterPath="$PROJECT_DIR$/data/src/main/java/com/andysklyarov/data/soap/SoapCbrApi.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/framework/soap/SoapCbrUtils.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/presentation/BindAdapters.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/ui/BindAdapters.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/presentation/CurrencyFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/ui/CurrencyFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/presentation/InfoTextDialog.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/ui/dialogs/InfoTextDialog.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/presentation/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/ui/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/presentation/MainViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/ui/MainViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/presentation/NamesListDialog.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/ui/dialogs/NamesListDialog.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/presentation/NavigationHost.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/ui/NavigationHost.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/presentation/OnBackPressed.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/ui/OnBackPressed.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/presentation/SettingsFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/ui/SettingsFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_add_alarm.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_add_alarm.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_info.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_info.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_launcher_background.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_launcher_background.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_wifi_off.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_wifi_off.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/currency_fragment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/currency_fragment.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/names_dialog_layout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/names_dialog_layout.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/settings_fragment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/settings_fragment.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/test/java/com/andysklyarov/finnotifyfree/ExampleUnitTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/test/java/com/andysklyarov/finnotifyfree/ExampleUnitTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/data/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/domain/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/andysklyarov/finnotifyfree/data/CurrencyInRubDataSource.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/andysklyarov/finnotifyfree/data/CurrencyInRubRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/data/src/main/java/com/andysklyarov/data/repository/CurrencyInRubDBRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/andysklyarov/finnotifyfree/domain/CurrencyInRub.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/andysklyarov/finnotifyfree/domain/CurrencyName.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/andysklyarov/finnotifyfree/domain/DiffCurrencyInRub.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/andysklyarov/finnotifyfree/interactors/Interactors.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="35285214" />
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view />
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin Interface" />
+        <option value="Kotlin Class" />
+        <option value="Kotlin File" />
+      </list>
+    </option>
+  </component>
+  <component name="GenerateSignedApkSettings">
+    <option name="EXPORT_PRIVATE_KEY" value="false" />
+    <option name="KEY_STORE_PATH" value="E:\Files\Desktop\Android\GooglePlayConsole\keystore\finnotify-keystore.jks" />
+    <option name="KEY_ALIAS" value="finnotifyfree" />
+    <option name="REMEMBER_PASSWORDS" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1h6J9zz9ZicUssVzYtA10sZZ7Dd" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="BundleExportedModule" value="app" />
+    <property name="DEBUGGABLE_DEVICE" value="realme-rmx1921-35285214" />
+    <property name="DEBUGGABLE_PROCESS" value="com.andysklyarov.finnotifyfree" />
+    <property name="DEBUGGER_ID" value="Auto" />
+    <property name="ExportApk.ApkPath" value="E:\Files\Desktop\Android\PetProjects\FinNotify\FinNotify Free\app" />
+    <property name="ExportApk.BuildVariants" value="release" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHOW_ALL_PROCESSES" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../CourseraArchitecture/week4/Behancer_MVP_Dagger_CA" />
+    <property name="project.structure.last.edited" value="Suggestions" />
+    <property name="project.structure.proportion" value="0.17" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.andysklyarov.finnotifyfree" />
+      <recent name="com.andysklyarov.data" />
+    </key>
+    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="com.andysklyarov.finnotifyfree.dialogs" />
+      <recent name="com.andysklyarov.finnotifyfree.utils" />
+      <recent name="com.andysklyarov.data.repository" />
+      <recent name="com.andysklyarov.domain.model" />
+    </key>
+    <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="com.andysklyarov.data.repository" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.andysklyarov.domain" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\Files\Desktop\Android\PetProjects\FinNotify\FinNotify Free\domain\src\main\java\com\andysklyarov\domain" />
+      <recent name="E:\Files\Desktop\Android\PetProjects\FinNotify\FinNotify Free\app\src\main\java\com\andysklyarov\finnotifyfree" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.Moctivity">
+    <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
+      <module name="app" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Hybrid>
+      <Java />
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Moctivity" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.andysklyarov.finnotifyfree.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.andysklyarov.finnotifyfree" />
+      <option name="MAIN_CLASS_NAME" value="com.andysklyarov.finnotifyfree.Moctivity" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.Moctivity" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6b8d2590-1066-4f52-a050-185b88e9133f" name="Default Changelist" comment="" />
+      <created>1599325461360</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1599325461360</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="428" y="272" key="#PSD" timestamp="1600420090061">
+      <screen x="0" y="0" width="1822" height="1080" />
+    </state>
+    <state x="428" y="272" key="#PSD/0.0.1822.1080/-1818.0.1818.1080/1920.0.1818.1080@0.0.1822.1080" timestamp="1600420090061" />
+    <state x="702" y="256" key="#com.intellij.ide.util.MemberChooser" timestamp="1600362639159">
+      <screen x="0" y="0" width="1822" height="1080" />
+    </state>
+    <state x="702" y="256" key="#com.intellij.ide.util.MemberChooser/0.0.1822.1080/-1818.0.1818.1080/1920.0.1818.1080@0.0.1822.1080" timestamp="1600362639159" />
+    <state x="405" y="465" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1600359972679">
+      <screen x="0" y="0" width="1822" height="1080" />
+    </state>
+    <state x="405" y="465" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1822.1080/-1818.0.1818.1080/1920.0.1818.1080@0.0.1822.1080" timestamp="1600359972679" />
+    <state x="703" y="420" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages" timestamp="1600358438286">
+      <screen x="0" y="0" width="1822" height="1080" />
+    </state>
+    <state x="703" y="420" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages/0.0.1822.1080/-1818.0.1818.1080/1920.0.1818.1080@0.0.1822.1080" timestamp="1600358438286" />
+    <state x="690" y="204" key="#org.jetbrains.kotlin.idea.refactoring.move.moveDeclarations.ui.MoveKotlinTopLevelDeclarationsDialog" timestamp="1600359383166">
+      <screen x="0" y="0" width="1822" height="1080" />
+    </state>
+    <state x="690" y="204" key="#org.jetbrains.kotlin.idea.refactoring.move.moveDeclarations.ui.MoveKotlinTopLevelDeclarationsDialog/0.0.1822.1080/-1818.0.1818.1080/1920.0.1818.1080@0.0.1822.1080" timestamp="1600359383166" />
+    <state x="766" y="305" key="AndroidProcessChooserDialog" timestamp="1599480929768">
+      <screen x="0" y="0" width="1822" height="1080" />
+    </state>
+    <state x="766" y="305" key="AndroidProcessChooserDialog/0.0.1822.1080/-1818.0.1818.1080/1920.0.1818.1080@0.0.1822.1080" timestamp="1599480929768" />
+    <state width="414" height="438" key="DebuggerActiveHint" timestamp="1600430233088">
+      <screen x="0" y="0" width="1822" height="1080" />
+    </state>
+    <state width="414" height="438" key="DebuggerActiveHint/0.0.1822.1080/-1818.0.1818.1080/1920.0.1818.1080@0.0.1822.1080" timestamp="1600430233088" />
+    <state x="92" y="92" width="1638" height="896" key="DiffContextDialog" timestamp="1600363738658">
+      <screen x="0" y="0" width="1822" height="1080" />
+    </state>
+    <state x="92" y="92" width="1638" height="896" key="DiffContextDialog/0.0.1822.1080/-1818.0.1818.1080/1920.0.1818.1080@0.0.1822.1080" timestamp="1600363738658" />
+    <state x="750" y="295" key="FileChooserDialogImpl" timestamp="1600424442591">
+      <screen x="0" y="0" width="1822" height="1080" />
+    </state>
+    <state x="750" y="295" key="FileChooserDialogImpl/0.0.1822.1080/-1818.0.1818.1080/1920.0.1818.1080@0.0.1822.1080" timestamp="1600424442591" />
+    <state width="1779" height="354" key="GridCell.Tab.0.bottom" timestamp="1600430218240">
+      <screen x="0" y="0" width="1822" height="1080" />
+    </state>
+    <state width="1779" height="354" key="GridCell.Tab.0.bottom/0.0.1822.1080/-1818.0.1818.1080/1920.0.1818.1080@0.0.1822.1080" timestamp="1600430218240" />
+    <state width="1779" height="354" key="GridCell.Tab.0.center" timestamp="1600430218239">
+      <screen x="0" y="0" width="1822" height="1080" />
+    </state>
+    <state width="1779" height="354" key="GridCell.Tab.0.center/0.0.1822.1080/-1818.0.1818.1080/1920.0.1818.1080@0.0.1822.1080" timestamp="1600430218239" />
+    <state width="1779" height="354" key="GridCell.Tab.0.left" timestamp="1600430218239">
+      <screen x="0" y="0" width="1822" height="1080" />
+    </state>
+    <state width="1779" height="354" key="GridCell.Tab.0.left/0.0.1822.1080/-1818.0.1818.1080/1920.0.1818.1080@0.0.1822.1080" timestamp="1600430218239" />
+    <state width="1779" height="354" key="GridCell.Tab.0.right" timestamp="1600430218239">
+      <screen x="0" y="0" width="1822" height="1080" />
+    </state>
+    <state width="1779" height="354" key="GridCell.Tab.0.right/0.0.1822.1080/-1818.0.1818.1080/1920.0.1818.1080@0.0.1822.1080" timestamp="1600430218239" />
+    <state x="412" y="182" key="SettingsEditor" timestamp="1600425417552">
+      <screen x="0" y="0" width="1822" height="1080" />
+    </state>
+    <state x="412" y="182" key="SettingsEditor/0.0.1822.1080/-1818.0.1818.1080/1920.0.1818.1080@0.0.1822.1080" timestamp="1600425417552" />
+    <state x="-1663" y="112" width="1523" height="919" key="find.popup" timestamp="1600415848883">
+      <screen x="-1818" y="0" width="1818" height="1080" />
+    </state>
+    <state x="-1663" y="112" width="1523" height="919" key="find.popup/0.0.1822.1080/-1818.0.1818.1080/1920.0.1818.1080@0.0.1822.1080" timestamp="1600415848883" />
+    <state x="567" y="250" width="672" height="677" key="run.anything.popup" timestamp="1600416229336">
+      <screen x="0" y="0" width="1822" height="1080" />
+    </state>
+    <state x="567" y="250" width="672" height="677" key="run.anything.popup/0.0.1822.1080/-1818.0.1818.1080/1920.0.1818.1080@0.0.1822.1080" timestamp="1600416229336" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/domain/src/main/java/com/andysklyarov/domain/usecase/CurrencyUsecaseImpl.kt</url>
+          <line>22</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/andysklyarov/finnotifyfree/ui/MainViewModel.kt</url>
+          <line>63</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
