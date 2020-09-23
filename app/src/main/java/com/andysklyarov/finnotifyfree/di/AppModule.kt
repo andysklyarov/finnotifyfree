@@ -4,10 +4,8 @@ import androidx.room.Room
 import com.andysklyarov.data.database.CurrencyDao
 import com.andysklyarov.data.database.DataBase
 import com.andysklyarov.finnotifyfree.AppDelegate
-import com.andysklyarov.finnotifyfree.alarm.AlarmReceiver
 import dagger.Module
 import dagger.Provides
-import dagger.android.ContributesAndroidInjector
 import javax.inject.Singleton
 
 @Module

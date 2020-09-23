@@ -2,7 +2,6 @@ package com.andysklyarov.data.repository
 
 import com.andysklyarov.data.database.CurrencyDao
 import com.andysklyarov.data.database.CurrencyOnDate
-import com.andysklyarov.data.soap.SoapCbrApi
 import com.andysklyarov.domain.model.CurrencyInRub
 import com.andysklyarov.domain.repository.CurrencyInRubRepository
 import io.reactivex.Single
@@ -14,8 +13,7 @@ class CurrencyInRubDBRepository @Inject constructor() : CurrencyInRubRepository 
     @Inject
     lateinit var currencyDao: CurrencyDao
 
-    constructor(currencyDao: CurrencyDao) : this()
-    {
+    constructor(currencyDao: CurrencyDao) : this() {
         this.currencyDao = currencyDao
     }
 

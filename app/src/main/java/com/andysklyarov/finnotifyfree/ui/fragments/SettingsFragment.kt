@@ -1,28 +1,29 @@
-package com.andysklyarov.finnotifyfree.ui
-
+package com.andysklyarov.finnotifyfree.ui.fragments
 
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.TextView
 import android.widget.TimePicker
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.SwitchCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.andysklyarov.finnotifyfree.AppDelegate
 import com.andysklyarov.finnotifyfree.R
 import com.andysklyarov.finnotifyfree.databinding.SettingsFragmentBinding
+import com.andysklyarov.finnotifyfree.ui.MainViewModel
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
-import javax.inject.Inject
 
 class SettingsFragment : Fragment(), OnBackPressed {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var settingsView: View
-    private var isSettingsSave: Boolean = false
+    private var isSettingsSaved: Boolean = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -47,17 +48,11 @@ class SettingsFragment : Fragment(), OnBackPressed {
 
         initTimePicker()
         initAlarmSwitch()
-        initBackButton()
+        initToolbarButtons()
     }
 
-    override fun onBackPressed(): Boolean {
-        return if (!isSettingsSave) {
-            cancaleSettings()
-            true
-        } else {
-            saveSettings()
-            false
-        }
+    override fun onBackPressed() {
+        if (isSettingsSaved) saveSettings() else cancelSettings()
     }
 
     override fun onDetach() {
@@ -74,24 +69,33 @@ class SettingsFragment : Fragment(), OnBackPressed {
 
     private fun initAlarmSwitch() {
         val alarmSwitch: SwitchCompat = settingsView.findViewById(R.id.alarm_switch)
-        isSettingsSave = viewModel.isServiceStarted.get()!!
+        isSettingsSaved = viewModel.isServiceStarted.get()!!
 
-        alarmSwitch.isChecked = isSettingsSave
+        alarmSwitch.isChecked = isSettingsSaved
 
         setSettingsVisibility(alarmSwitch.isChecked)
         alarmSwitch.setOnCheckedChangeListener { _, isChecked ->
             setSettingsVisibility(isChecked)
-            isSettingsSave = isChecked
+            isSettingsSaved = isChecked
         }
     }
 
-    private fun initBackButton() {
-        val backButton: Button = settingsView.findViewById(R.id.back_button)
-        backButton.setOnClickListener {
-            if (isSettingsSave) {
+    private fun initToolbarButtons() {
+        val appCompatActivity = (activity as AppCompatActivity)
+
+        val infoButton: MaterialButton = appCompatActivity.findViewById(R.id.info_button)
+        infoButton.visibility = View.INVISIBLE
+
+        val codeButton: MaterialButton = appCompatActivity.findViewById(R.id.currency_button)
+        codeButton.setOnClickListener(null)
+
+        val alarmButton: MaterialButton = appCompatActivity.findViewById(R.id.alarm_button)
+        alarmButton.icon = AppCompatResources.getDrawable(appCompatActivity, R.drawable.ic_close)
+        alarmButton.setOnClickListener {
+            if (isSettingsSaved) {
                 saveSettings()
             } else {
-                cancaleSettings()
+                cancelSettings()
             }
             requireActivity().supportFragmentManager.popBackStack()
         }
@@ -110,11 +114,8 @@ class SettingsFragment : Fragment(), OnBackPressed {
         var bottomLimit: Float = textInputBottomLimit.text.toString().toFloat()
         val timePicker: TimePicker = settingsView.findViewById(R.id.time_picker)
 
-        if (topLimit < 0)
-            topLimit = 0f
-
-        if (bottomLimit < 0)
-            bottomLimit = 0f
+        if (topLimit < 0) topLimit = 0f
+        if (bottomLimit < 0) bottomLimit = 0f
 
         val hours = timePicker.hour
         val minutes = timePicker.minute
@@ -122,7 +123,7 @@ class SettingsFragment : Fragment(), OnBackPressed {
         viewModel.enableAlarm(hours, minutes, topLimit, bottomLimit)
     }
 
-    private fun cancaleSettings() {
+    private fun cancelSettings() {
         viewModel.disableAlarm()
     }
 

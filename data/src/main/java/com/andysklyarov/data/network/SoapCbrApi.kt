@@ -1,11 +1,11 @@
-package com.andysklyarov.data.soap
+package com.andysklyarov.data.network
 
 
 import com.andysklyarov.data.BuildConfig
-import com.andysklyarov.data.soap.GetCursOnDateXML.RequestGetCursOnDateXMLEnvelope
-import com.andysklyarov.data.soap.GetCursOnDateXML.ResponseGetCursOnDateXMLEnvelope
-import com.andysklyarov.data.soap.GetLatestDateTime.RequestLatestDateTimeEnvelope
-import com.andysklyarov.data.soap.GetLatestDateTime.ResponseLatestDateTimeEnvelope
+import com.andysklyarov.data.network.GetCursOnDateXML.RequestGetCursOnDateXMLEnvelope
+import com.andysklyarov.data.network.GetCursOnDateXML.ResponseGetCursOnDateXMLEnvelope
+import com.andysklyarov.data.network.GetLatestDateTime.RequestLatestDateTimeEnvelope
+import com.andysklyarov.data.network.GetLatestDateTime.ResponseLatestDateTimeEnvelope
 import io.reactivex.Single
 import retrofit2.http.Body
 import retrofit2.http.Headers

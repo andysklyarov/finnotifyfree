@@ -1,7 +1,7 @@
 package com.andysklyarov.finnotifyfree.di
 
 import com.andysklyarov.data.BuildConfig
-import com.andysklyarov.data.soap.SoapCbrApi
+import com.andysklyarov.data.network.SoapCbrApi
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

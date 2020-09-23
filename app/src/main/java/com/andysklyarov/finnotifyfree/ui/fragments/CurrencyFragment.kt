@@ -1,4 +1,4 @@
-package com.andysklyarov.finnotifyfree.ui
+package com.andysklyarov.finnotifyfree.ui.fragments
 
 import android.app.Activity
 import android.content.Context
@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -16,17 +18,15 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.andysklyarov.finnotifyfree.AppDelegate
 import com.andysklyarov.finnotifyfree.R
 import com.andysklyarov.finnotifyfree.databinding.CurrencyFragmentBinding
+import com.andysklyarov.finnotifyfree.ui.MainViewModel
+import com.andysklyarov.finnotifyfree.ui.NavigationHost
 import com.andysklyarov.finnotifyfree.ui.dialogs.InfoTextDialog
 import com.andysklyarov.finnotifyfree.ui.dialogs.NamesListDialog
 import com.google.android.material.button.MaterialButton
-import javax.inject.Inject
-
 
 class CurrencyFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     NamesListDialog.NamesListDialogListener {
 
-    @Inject
-    lateinit var factory: MainViewModelFactory
     lateinit var viewModel: MainViewModel
 
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
@@ -45,12 +45,9 @@ class CurrencyFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        AppDelegate.getAppComponent().injectCurrencyFragment(this)
-
-        val activity = requireActivity()
-        viewModel = ViewModelProvider(activity, factory).get(MainViewModel::class.java)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -62,7 +59,6 @@ class CurrencyFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
             DataBindingUtil.inflate(inflater, R.layout.currency_fragment, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = requireActivity()
-
         return binding.root
     }
 
@@ -70,20 +66,25 @@ class CurrencyFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         swipeRefreshLayout = view.findViewById(R.id.refresher)
         swipeRefreshLayout.setOnRefreshListener(this)
 
-        val settingsButton: MaterialButton = view.findViewById(R.id.settings_button)
+        val appCompatActivity = (activity as AppCompatActivity)
+
+        val settingsButton: MaterialButton = appCompatActivity.findViewById(R.id.alarm_button)
+        settingsButton.icon =
+            AppCompatResources.getDrawable(appCompatActivity, R.drawable.ic_add_alarm)
         settingsButton.setOnClickListener {
             val navigationHost = activity as NavigationHost
             navigationHost.navigateTo(SettingsFragment(), true)
         }
 
-        val textViewCode: TextView = view.findViewById(R.id.currency_code)
-        textViewCode.setOnClickListener { openNamesDialog() }
+        val codeButton: MaterialButton = appCompatActivity.findViewById(R.id.currency_button)
+        codeButton.setOnClickListener { openNamesDialog() }
+
+        val infoButton: Button = appCompatActivity.findViewById(R.id.info_button)
+        infoButton.visibility = View.VISIBLE
+        infoButton.setOnClickListener { openInfoDialog() }
 
         val textViewName: TextView = view.findViewById(R.id.currency_rus_name)
         textViewName.setOnClickListener { openNamesDialog() }
-
-        val infoButton: Button = view.findViewById(R.id.info_button)
-        infoButton.setOnClickListener { openInfoDialog() }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -99,14 +100,13 @@ class CurrencyFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     override fun onRefresh() {
-        swipeRefreshLayout.post { viewModel.updateData(currencyCode) }
+        swipeRefreshLayout.post {
+            viewModel.updateData(currencyCode)
+        }
     }
 
-    override fun applyCode(
-        requestCode: Int,
-        resultCode: Int,
-        NameAndCode: String
-    ) { // todo clean code here
+    override fun applyCodeFromDialog(requestCode: Int, resultCode: Int, NameAndCode: String) {
+        // todo clean code here
         if (requestCode == DIALOG_FRAGMENT) {
             if (resultCode == Activity.RESULT_OK) {
                 currencyCode = NameAndCode.substring(NameAndCode.indexOf("/") + 1).trim()

@@ -5,7 +5,6 @@ import io.reactivex.Single
 import java.time.LocalDate
 
 
-
 interface CurrencyInRubRepository {
 
     companion object {

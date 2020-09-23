@@ -1,11 +1,11 @@
 package com.andysklyarov.finnotifyfree.di
 
-import com.andysklyarov.data.soap.SoapCbrApi
-import com.andysklyarov.domain.usecases.CurrencyUsecase
+import com.andysklyarov.data.network.SoapCbrApi
+import com.andysklyarov.domain.interactors.CurrencyInteractors
 import com.andysklyarov.finnotifyfree.AppDelegate
 import com.andysklyarov.finnotifyfree.alarm.AlarmReceiver
-import com.andysklyarov.finnotifyfree.ui.CurrencyFragment
-import dagger.BindsInstance
+import com.andysklyarov.finnotifyfree.ui.MainActivity
+import com.andysklyarov.finnotifyfree.ui.fragments.CurrencyFragment
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
@@ -29,9 +29,9 @@ interface AppComponent : AndroidInjector<AppDelegate> {
 
     fun getApp(): AppDelegate
 
-    fun geCurrencyUsecase(): CurrencyUsecase
+    fun geCurrencyUsecase(): CurrencyInteractors
 
     fun getReceiver(): AlarmReceiver
 
-    fun injectCurrencyFragment(injector: CurrencyFragment)
+    fun injectActivity(injector: MainActivity)
 }

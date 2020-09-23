@@ -1,4 +1,4 @@
-package com.andysklyarov.data.soap.GetCursOnDateXML
+package com.andysklyarov.data.network.GetCursOnDateXML
 
 import org.simpleframework.xml.*
 

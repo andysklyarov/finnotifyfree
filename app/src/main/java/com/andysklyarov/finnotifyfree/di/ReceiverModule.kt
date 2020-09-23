@@ -8,5 +8,5 @@ import dagger.android.ContributesAndroidInjector
 abstract class ReceiverModule {
     @ContributesAndroidInjector
     @ReceiverScope
-    abstract fun connectionReceiver() : AlarmReceiver
+    abstract fun connectionReceiver(): AlarmReceiver
 }

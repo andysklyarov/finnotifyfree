@@ -1,4 +1,4 @@
-package com.andysklyarov.data.soap.GetLatestDateTime
+package com.andysklyarov.data.network.GetLatestDateTime
 
 import org.simpleframework.xml.*
 

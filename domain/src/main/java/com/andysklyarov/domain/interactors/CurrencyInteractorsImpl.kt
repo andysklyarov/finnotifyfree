@@ -1,4 +1,4 @@
-package com.andysklyarov.domain.usecases
+package com.andysklyarov.domain.interactors
 
 import com.andysklyarov.domain.hasNetworkException
 import com.andysklyarov.domain.model.CurrencyInRub
@@ -8,7 +8,7 @@ import java.time.LocalDate
 import javax.inject.Inject
 import javax.inject.Named
 
-class CurrencyUsecaseImplementation @Inject constructor() : CurrencyUsecase {
+class CurrencyInteractorsImpl @Inject constructor() : CurrencyInteractors {
 
     @Inject
     @Named(CurrencyInRubRepository.SERVER)
@@ -19,11 +19,11 @@ class CurrencyUsecaseImplementation @Inject constructor() : CurrencyUsecase {
     lateinit var dbRepository: CurrencyInRubRepository
 
     override fun getLastDate(): Single<LocalDate> {
-        return serverRepository.getLastDate().onErrorReturn { t ->
-            if (hasNetworkException(t)) {
+        return serverRepository.getLastDate().onErrorReturn {
+            if (hasNetworkException(it)) {
                 dbRepository.getLastDate().blockingGet() //todo avoid blockingGet
             } else {
-                null
+                null //todo handle error
             }
         }
     }
@@ -33,11 +33,11 @@ class CurrencyUsecaseImplementation @Inject constructor() : CurrencyUsecase {
             .doOnSuccess { currencies: List<CurrencyInRub> ->
                 dbRepository.insertCurrenciesList(currencies, date)
             }
-            .onErrorReturn { t ->
-                if (hasNetworkException(t)) {
+            .onErrorReturn {
+                if (hasNetworkException(it)) {
                     dbRepository.getCurrenciesList(date).blockingGet() //todo avoid blockingGet
                 } else {
-                    null
+                    null //todo handle error
                 }
             }
     }
@@ -50,8 +50,7 @@ class CurrencyUsecaseImplementation @Inject constructor() : CurrencyUsecase {
 
     override fun getLastCurrency(chCode: String): Single<CurrencyInRub> {
         return getLastCurrencies().map {
-            it.filter {
-                    currencyInRub -> currencyInRub.chCode == chCode }[0]
+            it.filter { currencyInRub -> currencyInRub.chCode == chCode }[0]
         }
     }
 }

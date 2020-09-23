@@ -30,13 +30,13 @@ class NamesListDialog : AppCompatDialogFragment() {
         val builder = AlertDialog.Builder(activity, R.style.AlertDialogCustom)
 
         val inflater = activity?.layoutInflater
-        val view = inflater?.inflate(R.layout.names_dialog_layout, null)
+        val view = inflater?.inflate(R.layout.names_dialog, null)
 
         builder.setView(view)
             .setTitle(R.string.names_dialog_title)
             .setItems(R.array.currencies) { _, i ->
                 val code = resources.getStringArray(R.array.currencies)[i]
-                listener.applyCode(targetRequestCode, Activity.RESULT_OK, code)
+                listener.applyCodeFromDialog(targetRequestCode, Activity.RESULT_OK, code)
             }
 
         val dialog = builder.create()
@@ -47,6 +47,6 @@ class NamesListDialog : AppCompatDialogFragment() {
     }
 
     interface NamesListDialogListener {
-        fun applyCode(requestCode: Int, resultCode: Int, NameAndCode: String)
+        fun applyCodeFromDialog(requestCode: Int, resultCode: Int, NameAndCode: String)
     }
 }

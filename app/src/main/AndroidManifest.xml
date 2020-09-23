@@ -29,6 +29,5 @@
         <receiver
             android:name="com.andysklyarov.finnotifyfree.alarm.AlarmReceiver"
             android:enabled="true" />
-
     </application>
 </manifest>

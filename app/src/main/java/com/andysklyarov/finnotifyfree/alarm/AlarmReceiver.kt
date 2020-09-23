@@ -9,7 +9,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.andysklyarov.domain.model.CurrencyInRub
-import com.andysklyarov.domain.usecases.CurrencyUsecase
+import com.andysklyarov.domain.interactors.CurrencyInteractors
 import com.andysklyarov.finnotifyfree.AppDelegate
 import com.andysklyarov.finnotifyfree.R
 import com.andysklyarov.finnotifyfree.ui.MainActivity
@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 class AlarmReceiver @Inject constructor() : DaggerBroadcastReceiver() {
     @Inject
-    lateinit var useCase: CurrencyUsecase
+    lateinit var useCase: CurrencyInteractors
 
     private lateinit var disposable: Disposable
 

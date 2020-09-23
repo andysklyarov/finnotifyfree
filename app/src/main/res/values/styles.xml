@@ -8,16 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="android:textColorPrimary">#FFFFFF</item>
-        <item name="android:autoSizeMaxTextSize">18dp</item>
-    </style>
-
-    <style name="Theme.CoinsTest.BackgroundImage" parent="Theme.CoinsTest">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_gravity">bottom|center</item>
-        <item name="android:scaleType">fitXY</item>
-        <item name="android:src">@mipmap/img2</item>
-    </style>
+        <item name="android:autoSizeMaxTextSize">18sp</item>
+    </style>>
 
     <style name="Theme.CoinsTest.CommonTextView" parent="Theme.CoinsTest">
         <item name="fontFamily">roboto</item>
@@ -41,26 +33,9 @@
     </style>
 
 
-    <!--    <style name="Widget.App.Button.OutlinedButton.IconOnly" parent="Widget.MaterialComponents.Button.OutlinedButton">-->
-    <!--        <item name="iconPadding">0dp</item>-->
-    <!--        <item name="android:insetTop">0dp</item>-->
-    <!--        <item name="android:insetBottom">0dp</item>-->
-    <!--        <item name="android:paddingLeft">12dp</item>-->
-    <!--        <item name="android:paddingRight">12dp</item>-->
-    <!--        <item name="android:minWidth">48dp</item>-->
-    <!--        <item name="android:minHeight">48dp</item>-->
-    <!--        <item name="borderlessButtonStyle">@id/none</item>-->
-    <!--    </style>-->
-
     <!--    <style name="IconOnlyButton" parent="Widget.MaterialComponents.Button.OutlinedButton">-->
     <!--        <item name="iconPadding">0dp</item>-->
     <!--        <item name="iconGravity">textStart</item>-->
-    <!--    </style>-->
-
-
-    <!--    <style name="myTimePickerStyle" parent="@android:style/Widget.Material.Light.TimePicker">-->
-    <!--        <item name="android:numbersTextColor">#ffffff</item>-->
-    <!--        <item name="android:numbersSelectorColor">#88000000</item>-->
     <!--    </style>-->
 
     <style name="Theme.CoinsTest.NumberPicker" parent="Theme.CoinsTest">

@@ -1,13 +1,13 @@
 package com.andysklyarov.data.repository
 
-import com.andysklyarov.data.soap.GetCursOnDateXML.RequestGetCursOnDateXMLBody
-import com.andysklyarov.data.soap.GetCursOnDateXML.RequestGetCursOnDateXMLData
-import com.andysklyarov.data.soap.GetCursOnDateXML.RequestGetCursOnDateXMLEnvelope
-import com.andysklyarov.data.soap.GetCursOnDateXML.ResponseGetCursOnDateXMLEnvelope
-import com.andysklyarov.data.soap.GetLatestDateTime.RequestLatestDateTimeBody
-import com.andysklyarov.data.soap.GetLatestDateTime.RequestLatestDateTimeData
-import com.andysklyarov.data.soap.GetLatestDateTime.RequestLatestDateTimeEnvelope
-import com.andysklyarov.data.soap.SoapCbrApi
+import com.andysklyarov.data.network.GetCursOnDateXML.RequestGetCursOnDateXMLBody
+import com.andysklyarov.data.network.GetCursOnDateXML.RequestGetCursOnDateXMLData
+import com.andysklyarov.data.network.GetCursOnDateXML.RequestGetCursOnDateXMLEnvelope
+import com.andysklyarov.data.network.GetCursOnDateXML.ResponseGetCursOnDateXMLEnvelope
+import com.andysklyarov.data.network.GetLatestDateTime.RequestLatestDateTimeBody
+import com.andysklyarov.data.network.GetLatestDateTime.RequestLatestDateTimeData
+import com.andysklyarov.data.network.GetLatestDateTime.RequestLatestDateTimeEnvelope
+import com.andysklyarov.data.network.SoapCbrApi
 import com.andysklyarov.domain.model.CurrencyInRub
 import com.andysklyarov.domain.repository.CurrencyInRubRepository
 import io.reactivex.Single
@@ -20,8 +20,7 @@ class CurrencyInRubServerRepository @Inject constructor() : CurrencyInRubReposit
     @Inject
     lateinit var soapCbrApi: SoapCbrApi
 
-    constructor(soapCbrApi: SoapCbrApi) : this()
-    {
+    constructor(soapCbrApi: SoapCbrApi) : this() {
         this.soapCbrApi = soapCbrApi
     }
 
@@ -62,8 +61,8 @@ class CurrencyInRubServerRepository @Inject constructor() : CurrencyInRubReposit
     }
 
     private fun getCurrencyInRubWithDiff(
-        oldResponse: ResponseGetCursOnDateXMLEnvelope,
-        newResponse: ResponseGetCursOnDateXMLEnvelope
+        newResponse: ResponseGetCursOnDateXMLEnvelope,
+        oldResponse: ResponseGetCursOnDateXMLEnvelope
     ): List<CurrencyInRub> {
 
         val oldData =

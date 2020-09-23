@@ -12,7 +12,7 @@ class InfoTextDialog : AppCompatDialogFragment() {
         val builder = AlertDialog.Builder(activity, R.style.AlertDialogCustom)
 
         val inflater = activity?.layoutInflater
-        val view = inflater?.inflate(R.layout.info_dialog_layout, null)
+        val view = inflater?.inflate(R.layout.info_dialog, null)
 
         builder.setView(view)
             .setTitle(R.string.info_dialog_title)

@@ -1,14 +1,16 @@
 package com.andysklyarov.finnotifyfree.ui
 
-import android.view.View
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.databinding.ObservableFloat
+import androidx.databinding.ObservableInt
 import androidx.lifecycle.AndroidViewModel
+import com.andysklyarov.domain.interactors.CurrencyInteractors
 import com.andysklyarov.domain.model.CurrencyInRub
 import com.andysklyarov.finnotifyfree.AppDelegate
 import com.andysklyarov.finnotifyfree.R
 import com.andysklyarov.finnotifyfree.alarm.AlarmServiceManager
 import com.andysklyarov.finnotifyfree.alarm.ServiceState
-import com.andysklyarov.domain.usecases.CurrencyUsecase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -17,26 +19,22 @@ import java.time.ZonedDateTime
 import javax.inject.Inject
 import kotlin.math.abs
 
-
 class MainViewModel @Inject constructor(application: AppDelegate) : AndroidViewModel(application) {
     val currency = ObservableField<CurrencyInRub>()
-    val diffCurrency = ObservableField<String>()
+    val topLimit = ObservableFloat()
+    val bottomLimit = ObservableFloat()
 
-    val topLimit = ObservableField<Float>()
-    val bottomLimit = ObservableField<Float>()
-
-    val isServiceStarted = ObservableField<Boolean>()
-    val isLoading = ObservableField<Boolean>()
-    val errorVisibility = ObservableField<Int>()
-    val mainPartsVisibility = ObservableField<Int>()
-    val backgroundRes = ObservableField<Int>()
+    val isServiceStarted = ObservableBoolean()
+    val isLoading = ObservableBoolean()
+    val isError = ObservableBoolean()
+    val backgroundRes = ObservableInt()
 
     private var disposable: Disposable? = null
 
     private var alarmManager: AlarmServiceManager
 
     @Inject
-    lateinit var usecase: CurrencyUsecase
+    lateinit var usecase: CurrencyInteractors
 
 
     init {
@@ -44,18 +42,17 @@ class MainViewModel @Inject constructor(application: AppDelegate) : AndroidViewM
             CurrencyInRub(
                 getApplication<AppDelegate>().getString(R.string.default_currency_name),
                 getApplication<AppDelegate>().getString(R.string.default_currency_code),
-                LocalDate.of(0, 1, 1),
+                LocalDate.of(1, 1, 1),
                 0,
                 0.0f,
                 0.0f
             )
         )
-        diffCurrency.set("0")
         alarmManager = AlarmServiceManager(getApplication())
         updateAlarmState()
         isLoading.set(false)
-        mainPartsVisibility.set(View.GONE)
-        errorVisibility.set(View.GONE)
+        isError.set(false)
+
         val imgResId = application.loadImgRes()
         backgroundRes.set(imgResId)
     }
@@ -68,20 +65,10 @@ class MainViewModel @Inject constructor(application: AppDelegate) : AndroidViewM
             .doFinally { isLoading.set(false) }
             .subscribe({
                 currency.set(it)
-
-                if (it.diff > 0) {
-                    diffCurrency.set("+" + it.diff)
-                } else {
-                    diffCurrency.set(it.diff.toString())
-                }
-
                 setBackground(it.diff)
-                mainPartsVisibility.set(View.VISIBLE)
-                errorVisibility.set(View.GONE)
-
+                isError.set(false)
             }) {
-                mainPartsVisibility.set(View.GONE)
-                errorVisibility.set(View.VISIBLE)
+                isError.set(true)
             }
     }
 
@@ -113,7 +100,6 @@ class MainViewModel @Inject constructor(application: AppDelegate) : AndroidViewM
     fun getNomPreamble(nom: Int, currencyName: String): String {
         return getApplication<AppDelegate>().getString(R.string.nom_string) + " " + nom + " " + currencyName
     }
-
 
     private fun updateAlarmState() {
         val state: ServiceState = alarmManager.getServiceState()
