@@ -6,7 +6,8 @@
 
     <data>
 
-        <import type="java.time.format.DateTimeFormatter" />
+        <import type="org.threeten.bp.format.DateTimeFormatter" />
+
         <import type="android.view.View" />
 
         <variable
@@ -30,8 +31,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="@{viewModel.isError ? View.VISIBLE : View.GONE}"
-                app:srcCompat="@drawable/ic_wifi_off"
-                tools:visibility="gone" />
+                app:srcCompat="@drawable/ic_report_problem"
+                tools:visibility="gone"
+                android:contentDescription="@string/common_error" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -46,15 +48,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="29dp"
                     android:layout_marginTop="32dp"
-                    android:text='@{viewModel.getDatePreamble() + " " + viewModel.currency.date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))}'
                     android:textAlignment="center"
                     android:textSize="@dimen/tiny_text_size"
                     android:textStyle="bold"
+                    app:date_text='@{viewModel.currency.date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))}'
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:layout_width="150dp"
-                    tools:text="26.09.2020"/>
+                    tools:text="26.09.2020" />
 
                 <TextView
                     android:id="@+id/currency_rus_name"
@@ -90,12 +92,13 @@
                     android:layout_width="243dp"
                     android:layout_height="115dp"
                     android:layout_marginStart="@dimen/common_margin"
-                    android:layout_marginBottom="204dp"
                     android:text="@{Float.toString(viewModel.currency.value)}"
                     android:textSize="@dimen/large_text_size"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:text="75.01"/>
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.6"
+                    tools:text="75.01" />
 
                 <TextView
                     android:id="@+id/currency_nom"
@@ -104,10 +107,11 @@
                     android:layout_height="36dp"
                     android:layout_marginTop="26dp"
                     android:layout_marginEnd="@dimen/common_margin"
-                    android:text="@{viewModel.getNomPreamble(viewModel.currency.nom, viewModel.currency.chCode)}"
                     android:textSize="@dimen/small_text_size"
+                    app:code_text='@{viewModel.currency.chCode}'
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/currency_value"
+                    app:nom_text='@{viewModel.currency.nom}'
                     tools:text="За 1 USD" />
 
                 <TextView
@@ -116,7 +120,7 @@
                     android:layout_height="48dp"
                     android:layout_marginEnd="@dimen/common_margin"
                     android:layout_marginBottom="90dp"
-                    android:text="@string/rub"
+                    android:text="@string/base_currency"
                     android:textSize="@dimen/normal_text_size"
                     app:layout_constraintBottom_toBottomOf="@+id/currency_value"
                     app:layout_constraintEnd_toEndOf="parent" />

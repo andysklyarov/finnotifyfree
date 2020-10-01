@@ -6,13 +6,11 @@ import com.andysklyarov.finnotifyfree.di.AppComponent
 import com.andysklyarov.finnotifyfree.di.AppModule
 import com.andysklyarov.finnotifyfree.di.DaggerAppComponent
 import com.andysklyarov.finnotifyfree.di.NetworkModule
+import com.jakewharton.threetenabp.AndroidThreeTen
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import javax.inject.Inject
-
-private const val SAVED_RES_SHARED_PREFERENCES_KEY = "SAVED_RES_SHARED_PREFERENCES_KEY"
-private const val SAVED_CODE_SHARED_PREFERENCES_KEY = "SAVED_CODE_SHARED_PREFERENCES_KEY"
 
 class AppDelegate : Application(), HasAndroidInjector {
 
@@ -20,6 +18,8 @@ class AppDelegate : Application(), HasAndroidInjector {
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     companion object {
+        private const val SAVED_RES_SHARED_PREFERENCES_KEY = "SAVED_RES_SHARED_PREFERENCES_KEY"
+
         private lateinit var appComponent: AppComponent
         fun getAppComponent(): AppComponent {
             return appComponent
@@ -28,6 +28,7 @@ class AppDelegate : Application(), HasAndroidInjector {
 
     override fun onCreate() {
         super.onCreate()
+        AndroidThreeTen.init(this)
 
         appComponent = DaggerAppComponent.builder()
             .appModule(AppModule(this))
@@ -52,21 +53,6 @@ class AppDelegate : Application(), HasAndroidInjector {
         val myPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         val myEditor = myPreferences.edit()
         myEditor.putInt(SAVED_RES_SHARED_PREFERENCES_KEY, imgRes)
-        myEditor.apply()
-    }
-
-    fun loadPreviousChCode(): String { // todo migrate to Room
-        val myPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        return myPreferences.getString(
-            SAVED_CODE_SHARED_PREFERENCES_KEY,
-            getString(R.string.default_currency_code)
-        )!!
-    }
-
-    fun saveCode(code: String) { // todo migrate to Room
-        val myPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val myEditor = myPreferences.edit()
-        myEditor.putString(SAVED_CODE_SHARED_PREFERENCES_KEY, code)
         myEditor.apply()
     }
 }

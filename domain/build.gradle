@@ -4,6 +4,9 @@ apply plugin: 'kotlin-kapt'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.4'
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.10"
     implementation 'io.reactivex.rxjava2:rxjava:2.2.10'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.2.0'
@@ -13,6 +16,3 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.29.1'
     kapt "com.google.dagger:dagger-android-processor:2.29.1"
 }
-
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"

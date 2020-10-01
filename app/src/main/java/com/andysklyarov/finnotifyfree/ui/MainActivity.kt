@@ -5,13 +5,13 @@ import android.os.StrictMode
 import android.view.WindowManager
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import com.andysklyarov.finnotifyfree.AppDelegate
-import com.andysklyarov.finnotifyfree.BuildConfig
 import com.andysklyarov.finnotifyfree.R
 import com.andysklyarov.finnotifyfree.databinding.MainActivityBinding
 import com.andysklyarov.finnotifyfree.ui.fragments.CurrencyFragment
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity(), NavigationHost {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
 
-        setStrictMode(BuildConfig.DEBUG)
+//        setStrictMode(BuildConfig.DEBUG)
 
         window.setFlags(
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
@@ -46,21 +46,19 @@ class MainActivity : AppCompatActivity(), NavigationHost {
         setSupportActionBar(toolbar)
         supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
 
-        val code = (application as AppDelegate).loadPreviousChCode();
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .add(R.id.container, CurrencyFragment.newInstance(code))
+                .add(R.id.container, CurrencyFragment.newInstance())
                 .commit()
         }
-    }
 
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+    }
 
     override fun navigateTo(fragment: Fragment, addToBackstack: Boolean) {
         val transaction: FragmentTransaction =
             supportFragmentManager.beginTransaction().replace(R.id.container, fragment)
-
         if (addToBackstack) transaction.addToBackStack(null)
-
         transaction.commit()
     }
 

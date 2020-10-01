@@ -1,6 +1,7 @@
 package com.andysklyarov.domain.model
 
-import java.time.LocalDate
+import org.threeten.bp.LocalDate
+
 
 data class CurrencyInRub(
     val fullName: String,

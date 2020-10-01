@@ -51,7 +51,7 @@ class NetworkModule {
     fun getRetrofit(serializer: Serializer, client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(SimpleXmlConverterFactory.create(serializer))
-            .baseUrl(BuildConfig.CBR_WEBSERV_URL.toString() + "/")
+            .baseUrl(BuildConfig.CBR_WEBSERV_URL + "/")
             .client(client)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()

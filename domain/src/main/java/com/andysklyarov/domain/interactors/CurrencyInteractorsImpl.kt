@@ -4,7 +4,7 @@ import com.andysklyarov.domain.hasNetworkException
 import com.andysklyarov.domain.model.CurrencyInRub
 import com.andysklyarov.domain.repository.CurrencyInRubRepository
 import io.reactivex.Single
-import java.time.LocalDate
+import org.threeten.bp.LocalDate
 import javax.inject.Inject
 import javax.inject.Named
 

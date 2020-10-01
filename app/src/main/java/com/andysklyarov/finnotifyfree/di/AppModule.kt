@@ -10,12 +10,12 @@ import javax.inject.Singleton
 
 @Module
 class AppModule(app: AppDelegate) {
-    val mApp: AppDelegate = app
+    private val mApp: AppDelegate = app
 
     @Provides
     @Singleton
     fun provideApp(): AppDelegate {
-        return mApp;
+        return mApp
     }
 
     @Provides
@@ -29,6 +29,6 @@ class AppModule(app: AppDelegate) {
     @Provides
     @Singleton
     fun provideDao(database: DataBase): CurrencyDao {
-        return database.getCurrencyDao();
+        return database.getCurrencyDao()
     }
 }

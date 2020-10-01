@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.andysklyarov.finnotifyfree.ui.MainViewModel" />
@@ -30,7 +31,7 @@
             android:layout_height="match_parent"
             tools:context=".ui.MainActivity"
             tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="16dp" >
+            tools:layout_editor_absoluteY="16dp">
 
         </FrameLayout>
     </LinearLayout>

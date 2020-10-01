@@ -2,7 +2,7 @@ package com.andysklyarov.domain.repository
 
 import com.andysklyarov.domain.model.CurrencyInRub
 import io.reactivex.Single
-import java.time.LocalDate
+import org.threeten.bp.LocalDate
 
 
 interface CurrencyInRubRepository {

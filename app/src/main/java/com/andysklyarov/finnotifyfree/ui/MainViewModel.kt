@@ -2,62 +2,87 @@ package com.andysklyarov.finnotifyfree.ui
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import androidx.databinding.ObservableFloat
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.AndroidViewModel
+import androidx.preference.PreferenceManager
 import com.andysklyarov.domain.interactors.CurrencyInteractors
 import com.andysklyarov.domain.model.CurrencyInRub
 import com.andysklyarov.finnotifyfree.AppDelegate
 import com.andysklyarov.finnotifyfree.R
 import com.andysklyarov.finnotifyfree.alarm.AlarmServiceManager
-import com.andysklyarov.finnotifyfree.alarm.ServiceState
+import com.andysklyarov.finnotifyfree.ui.fragments.SettingsFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import java.time.LocalDate
-import java.time.ZonedDateTime
+import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalTime
 import javax.inject.Inject
 import kotlin.math.abs
 
-class MainViewModel @Inject constructor(application: AppDelegate) : AndroidViewModel(application) {
-    val currency = ObservableField<CurrencyInRub>()
-    val topLimit = ObservableFloat()
-    val bottomLimit = ObservableFloat()
+class MainViewModel @Inject constructor(private val app: AppDelegate) :
+    AndroidViewModel(app) {
 
-    val isServiceStarted = ObservableBoolean()
+    companion object {
+        const val MAX_ABS_DYNAMICS_DEFAULT_VALUE = 1.0f
+    }
+
+    val currency = ObservableField<CurrencyInRub>()
     val isLoading = ObservableBoolean()
     val isError = ObservableBoolean()
     val backgroundRes = ObservableInt()
 
-    private var disposable: Disposable? = null
-
     private var alarmManager: AlarmServiceManager
+    private var currencyCode: String = "USD"
+    private var lowDynamics: Float = 0f
+    private var highDynamics: Float = 0f
+
+    private var disposable: Disposable? = null
 
     @Inject
     lateinit var usecase: CurrencyInteractors
 
 
     init {
-        currency.set(
-            CurrencyInRub(
-                getApplication<AppDelegate>().getString(R.string.default_currency_name),
-                getApplication<AppDelegate>().getString(R.string.default_currency_code),
-                LocalDate.of(1, 1, 1),
-                0,
-                0.0f,
-                0.0f
-            )
-        )
-        alarmManager = AlarmServiceManager(getApplication())
-        updateAlarmState()
+        val defaultCurrencyName = app.getString(R.string.default_currency_name)
+        val defaultCurrencyCode = app.getString(R.string.default_currency_code)
+        val date = LocalDate.of(1, 1, 1)
+        currency.set(CurrencyInRub(defaultCurrencyName, defaultCurrencyCode, date, 0, 0.0f, 0.0f))
         isLoading.set(false)
         isError.set(false)
 
-        val imgResId = application.loadImgRes()
+        val imgResId = app.loadImgRes()
         backgroundRes.set(imgResId)
+
+        alarmManager = AlarmServiceManager(app)
     }
 
-    fun updateData(currencyCode: String) {
+    fun updateSettings() {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(app)
+        currencyCode = sharedPreferences?.getString(
+            app.getString(R.string.currency_code_string_key),
+            app.getString(R.string.default_currency_code)
+        ) ?: app.getString(R.string.default_currency_code)
+
+        val isAlarmEnabled =
+            sharedPreferences.getBoolean(app.getString(R.string.enable_alarm_boolean_key), false)
+        if (isAlarmEnabled) {
+            startAlarmService()
+        } else {
+            alarmManager.stopRepeatingService()
+        }
+
+        val baseValue =
+            sharedPreferences.getString(app.getString(R.string.max_abs_dynamics_string_key), null)
+                ?.toFloat() ?: MAX_ABS_DYNAMICS_DEFAULT_VALUE
+        val lowDynamicsPercent =
+            sharedPreferences.getInt(app.getString(R.string.low_dynamics_int_key), 0).toFloat()
+        val highDynamicsPercent =
+            sharedPreferences.getInt(app.getString(R.string.high_dynamics_int_key), 0).toFloat()
+        lowDynamics = baseValue * (lowDynamicsPercent / SettingsFragment.SEEK_BAR_MAX_VALUE)
+        highDynamics = baseValue * (highDynamicsPercent / SettingsFragment.SEEK_BAR_MAX_VALUE)
+    }
+
+    fun updateData() {
         disposable = usecase.getLastCurrency(currencyCode)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -76,47 +101,37 @@ class MainViewModel @Inject constructor(application: AppDelegate) : AndroidViewM
         disposable?.dispose()
     }
 
-    fun enableAlarm(hour: Int, minutes: Int, topLimit: Float, bottomLimit: Float) {
-        this.topLimit.set(topLimit)
-        this.bottomLimit.set(bottomLimit)
-        alarmManager.setAlarmTime24(hour, minutes)
-        alarmManager.startRepeatingService(currency.get()!!.chCode, topLimit, bottomLimit)
-        updateAlarmState()
-    }
+    private fun startAlarmService() { // todo cleaner here
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(app)
+        val timeInNano =
+            sharedPreferences.getLong(app.getString(R.string.alarm_time_data_long_key), 0)
+        val time: LocalTime = LocalTime.ofNanoOfDay(timeInNano)
 
-    fun disableAlarm() {
-        alarmManager.stopRepeatingService()
-        updateAlarmState()
-    }
+        val topLimitStr =
+            sharedPreferences.getString(app.getString(R.string.top_limit_string_key), null)
+        val bottomLimitStr =
+            sharedPreferences.getString(app.getString(R.string.bottom_limit_string_key), null)
 
-    fun getAlarmTime(): ZonedDateTime {
-        return alarmManager.getAlarmTime()
-    }
+        val topLimit = topLimitStr?.toFloat() ?: 0.0f
+        val bottomLimit = bottomLimitStr?.toFloat() ?: 0.0f
 
-    fun getDatePreamble(): String {
-        return getApplication<AppDelegate>().getString(R.string.update_on)
-    }
-
-    fun getNomPreamble(nom: Int, currencyName: String): String {
-        return getApplication<AppDelegate>().getString(R.string.nom_string) + " " + nom + " " + currencyName
-    }
-
-    private fun updateAlarmState() {
-        val state: ServiceState = alarmManager.getServiceState()
-        topLimit.set(state.topLimit)
-        bottomLimit.set(state.bottomLimit)
-        isServiceStarted.set(state.isStarted)
+        alarmManager.startRepeatingService(
+            currencyCode,
+            time.hour,
+            time.minute,
+            topLimit,
+            bottomLimit
+        )
     }
 
     private fun setBackground(diff: Float) {
         val absoluteDiff = abs(diff)
-        if (absoluteDiff < 0.2) { // todo add to settings
+        if (absoluteDiff < lowDynamics) {
             backgroundRes.set(R.mipmap.img1)
-        } else if (absoluteDiff > 0.2 && absoluteDiff < 0.4) {
+        } else if (absoluteDiff > lowDynamics && absoluteDiff < highDynamics) {
             backgroundRes.set(R.mipmap.img2)
         } else {
             backgroundRes.set(R.mipmap.img3)
         }
     }
-
 }

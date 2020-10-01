@@ -11,8 +11,8 @@ import com.andysklyarov.data.network.SoapCbrApi
 import com.andysklyarov.domain.model.CurrencyInRub
 import com.andysklyarov.domain.repository.CurrencyInRubRepository
 import io.reactivex.Single
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+import org.threeten.bp.LocalDate
+import org.threeten.bp.format.DateTimeFormatter
 import javax.inject.Inject
 
 class CurrencyInRubServerRepository @Inject constructor() : CurrencyInRubRepository {

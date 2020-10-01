@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="currency_code_string_key">currency_code</string>>
+
+    <string name="enable_alarm_boolean_key">enable_alarm</string>
+    <string name="alarm_time_data_long_key">alarm_time_data</string>>
+
+    <string name="top_limit_string_key">top_limit</string>
+    <string name="bottom_limit_string_key">bottom_limit</string>
+
+    <string name="max_abs_dynamics_string_key">max_abs_dynamics</string>
+    <string name="low_dynamics_int_key">low_dynamics</string>
+    <string name="high_dynamics_int_key">high_dynamics</string>
+</resources>
