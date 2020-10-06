@@ -12,44 +12,45 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.preference.*
 import com.andysklyarov.finnotifyfree.R
+import com.andysklyarov.finnotifyfree.alarm.AlarmServiceManager
 import com.google.android.material.button.MaterialButton
 import org.threeten.bp.LocalTime
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.DateTimeFormatterBuilder
 
-class SettingsFragment : PreferenceFragmentCompat() {
+const val SEEK_BAR_MIN_VALUE = 0
+const val SEEK_BAR_MAX_VALUE = 100
 
-    companion object {
-        const val SEEK_BAR_MIN_VALUE = 0
-        const val SEEK_BAR_MAX_VALUE = 100
+private const val TYPE_CLASS_NUMBER_DECIMAL =
+    InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+private const val INITIAL_EXPANDED_CHILDREN_COUNT_MIN = 2
+private const val INITIAL_EXPANDED_CHILDREN_COUNT_MAX = 5
 
-        private const val TYPE_CLASS_NUMBER_DECIMAL =
-            InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
-        private const val INITIAL_EXPANDED_CHILDREN_COUNT_MIN = 2
-        private const val INITIAL_EXPANDED_CHILDREN_COUNT_MAX = 5
+private val TIME_FORMATTER_24: DateTimeFormatter = DateTimeFormatterBuilder()
+    .parseCaseInsensitive()
+    .appendPattern("H:mm")
+    .toFormatter()
 
-        private val TIME_FORMATTER_24: DateTimeFormatter = DateTimeFormatterBuilder()
-            .parseCaseInsensitive()
-            .appendPattern("H:mm")
-            .toFormatter()
+private val TIME_FORMATTER_AM_PM: DateTimeFormatter = DateTimeFormatterBuilder()
+    .parseCaseInsensitive()
+    .appendPattern("h:mma")
+    .toFormatter()
 
-        private val TIME_FORMATTER_AM_PM: DateTimeFormatter = DateTimeFormatterBuilder()
-            .parseCaseInsensitive()
-            .appendPattern("h:mma")
-            .toFormatter()
+private const val SETTINGS_INTERNAL_KEY = "settings_key"
+private const val ALARM_TIME_INTERNAL_KEY = "alarm_time_key"
 
-        private const val SETTINGS_INTERNAL_KEY = "settings_key"
-        private const val ALARM_TIME_INTERNAL_KEY = "alarm_time_key"
-    }
-
+class SettingsFragment : PreferenceFragmentCompat(), OnBackPressed {
+    private lateinit var alarmManager: AlarmServiceManager
     private lateinit var sharedPreferences: SharedPreferences
 
     private lateinit var settingsCategory: PreferenceCategory
     private lateinit var currencyCode: ListPreference
+
     private lateinit var alarmSwitch: SwitchPreferenceCompat
     private lateinit var alarmTime: Preference
     private lateinit var topLimit: EditTextPreference
     private lateinit var bottomLimit: EditTextPreference
+
     private lateinit var maxAbsDynamics: EditTextPreference
     private lateinit var lowDynamics: SeekBarPreference
     private lateinit var highDynamics: SeekBarPreference
@@ -65,17 +66,17 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         saveLocalTimeToSettings(time)
 
-        if (view.is24HourView) {
-            alarmTime.summary = time.format(TIME_FORMATTER_24)
+        alarmTime.summary = if (view.is24HourView) {
+            time.format(TIME_FORMATTER_24)
         } else {
-            alarmTime.summary = time.format(TIME_FORMATTER_AM_PM)
+            time.format(TIME_FORMATTER_AM_PM)
         }
     }
 
+
     private val onTimePreferenceClickListener = Preference.OnPreferenceClickListener {
         val time: LocalTime = loadLocalTimeFromSettings()
-        val timeDialog =
-            TimePickerDialog(activity, timeSetListener, time.hour, time.minute, isTimeFormat24)
+        val timeDialog = TimePickerDialog(activity, timeSetListener, time.hour, time.minute, isTimeFormat24)
         timeDialog.show()
         true
     }
@@ -153,7 +154,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         true
     }
 
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -165,11 +165,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         infoButton.visibility = View.INVISIBLE
         alarmButton.icon = AppCompatResources.getDrawable(appCompatActivity, R.drawable.ic_close)
-        alarmButton.setOnClickListener { requireActivity().supportFragmentManager.popBackStack() }
+        alarmButton.setOnClickListener {
+            startIfEnabledAlarmService()
+            requireActivity().supportFragmentManager.popBackStack()
+        }
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.common_settings, rootKey)
+
+        alarmManager = AlarmServiceManager(requireContext())
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
 
         if (!tryInitializePreferences()) {
@@ -214,6 +219,30 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         lowDynamics.onPreferenceChangeListener = onLowDynamicsPreferenceChangeListener
         highDynamics.onPreferenceChangeListener = onHighDynamicsPreferenceChangeListener
+    }
+
+    override fun onBackPressed() {
+        startIfEnabledAlarmService()
+    }
+
+    private fun startIfEnabledAlarmService() {
+        if (alarmSwitch.isChecked) {
+            val timeInNano = sharedPreferences.getLong(
+                requireActivity().getString(R.string.alarm_time_data_long_key),
+                0
+            )
+            val time: LocalTime = LocalTime.ofNanoOfDay(timeInNano)
+
+            alarmManager.startRepeatingService(
+                currencyCode.value,
+                time.hour,
+                time.minute,
+                topLimit.text.toFloat(),
+                bottomLimit.text.toFloat()
+            )
+        } else {
+            alarmManager.stopRepeatingService()
+        }
     }
 
     private fun tryInitializePreferences(): Boolean {

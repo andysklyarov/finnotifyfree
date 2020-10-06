@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import com.andysklyarov.finnotifyfree.AppDelegate
+import com.andysklyarov.finnotifyfree.BuildConfig
 import com.andysklyarov.finnotifyfree.R
 import com.andysklyarov.finnotifyfree.databinding.MainActivityBinding
 import com.andysklyarov.finnotifyfree.ui.fragments.CurrencyFragment
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity(), NavigationHost {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
 
-//        setStrictMode(BuildConfig.DEBUG)
+        setStrictMode(BuildConfig.DEBUG)
 
         window.setFlags(
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,

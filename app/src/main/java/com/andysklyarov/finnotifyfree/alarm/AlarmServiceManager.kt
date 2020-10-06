@@ -30,16 +30,10 @@ class AlarmServiceManager(private val context: Context) {
         intent.putExtra(TOP_LIMIT_KEY, topLimit)
         intent.putExtra(BOTTOM_LIMIT_KEY, bottomLimit)
 
-        val alarmIntent =
-            PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val alarmIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val alarmTime = toZonedDateTime(hour, minutes)
         val currentTimeMillis = alarmTime.toInstant().toEpochMilli()
-        manager.setRepeating(
-            AlarmManager.RTC_WAKEUP,
-            currentTimeMillis,
-            AlarmManager.INTERVAL_DAY,
-            alarmIntent
-        )
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, currentTimeMillis, AlarmManager.INTERVAL_DAY, alarmIntent)
     }
 
     fun stopRepeatingService() {

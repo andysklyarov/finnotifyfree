@@ -10,6 +10,7 @@ import com.andysklyarov.domain.model.CurrencyInRub
 import com.andysklyarov.finnotifyfree.AppDelegate
 import com.andysklyarov.finnotifyfree.R
 import com.andysklyarov.finnotifyfree.alarm.AlarmServiceManager
+import com.andysklyarov.finnotifyfree.ui.fragments.SEEK_BAR_MAX_VALUE
 import com.andysklyarov.finnotifyfree.ui.fragments.SettingsFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -31,7 +32,7 @@ class MainViewModel @Inject constructor(private val app: AppDelegate) :
     val isError = ObservableBoolean()
     val backgroundRes = ObservableInt()
 
-    private var alarmManager: AlarmServiceManager
+
     private var currencyCode: String = "USD"
     private var lowDynamics: Float = 0f
     private var highDynamics: Float = 0f
@@ -52,8 +53,6 @@ class MainViewModel @Inject constructor(private val app: AppDelegate) :
 
         val imgResId = app.loadImgRes()
         backgroundRes.set(imgResId)
-
-        alarmManager = AlarmServiceManager(app)
     }
 
     fun updateSettings() {
@@ -63,14 +62,6 @@ class MainViewModel @Inject constructor(private val app: AppDelegate) :
             app.getString(R.string.default_currency_code)
         ) ?: app.getString(R.string.default_currency_code)
 
-        val isAlarmEnabled =
-            sharedPreferences.getBoolean(app.getString(R.string.enable_alarm_boolean_key), false)
-        if (isAlarmEnabled) {
-            startAlarmService()
-        } else {
-            alarmManager.stopRepeatingService()
-        }
-
         val baseValue =
             sharedPreferences.getString(app.getString(R.string.max_abs_dynamics_string_key), null)
                 ?.toFloat() ?: MAX_ABS_DYNAMICS_DEFAULT_VALUE
@@ -78,8 +69,8 @@ class MainViewModel @Inject constructor(private val app: AppDelegate) :
             sharedPreferences.getInt(app.getString(R.string.low_dynamics_int_key), 0).toFloat()
         val highDynamicsPercent =
             sharedPreferences.getInt(app.getString(R.string.high_dynamics_int_key), 0).toFloat()
-        lowDynamics = baseValue * (lowDynamicsPercent / SettingsFragment.SEEK_BAR_MAX_VALUE)
-        highDynamics = baseValue * (highDynamicsPercent / SettingsFragment.SEEK_BAR_MAX_VALUE)
+        lowDynamics = baseValue * (lowDynamicsPercent / SEEK_BAR_MAX_VALUE)
+        highDynamics = baseValue * (highDynamicsPercent / SEEK_BAR_MAX_VALUE)
     }
 
     fun updateData() {
@@ -99,29 +90,6 @@ class MainViewModel @Inject constructor(private val app: AppDelegate) :
 
     fun dispatchDetach() {
         disposable?.dispose()
-    }
-
-    private fun startAlarmService() { // todo cleaner here
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(app)
-        val timeInNano =
-            sharedPreferences.getLong(app.getString(R.string.alarm_time_data_long_key), 0)
-        val time: LocalTime = LocalTime.ofNanoOfDay(timeInNano)
-
-        val topLimitStr =
-            sharedPreferences.getString(app.getString(R.string.top_limit_string_key), null)
-        val bottomLimitStr =
-            sharedPreferences.getString(app.getString(R.string.bottom_limit_string_key), null)
-
-        val topLimit = topLimitStr?.toFloat() ?: 0.0f
-        val bottomLimit = bottomLimitStr?.toFloat() ?: 0.0f
-
-        alarmManager.startRepeatingService(
-            currencyCode,
-            time.hour,
-            time.minute,
-            topLimit,
-            bottomLimit
-        )
     }
 
     private fun setBackground(diff: Float) {
