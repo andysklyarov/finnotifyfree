@@ -10,8 +10,7 @@ import com.andysklyarov.domain.model.CurrencyInRub
 import com.andysklyarov.finnotifyfree.AppDelegate
 import com.andysklyarov.finnotifyfree.R
 import com.andysklyarov.finnotifyfree.alarm.AlarmServiceManager
-import com.andysklyarov.finnotifyfree.ui.fragments.SEEK_BAR_MAX_VALUE
-import com.andysklyarov.finnotifyfree.ui.fragments.SettingsFragment
+import com.andysklyarov.finnotifyfree.ui.fragments.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -22,10 +21,6 @@ import kotlin.math.abs
 
 class MainViewModel @Inject constructor(private val app: AppDelegate) :
     AndroidViewModel(app) {
-
-    companion object {
-        const val MAX_ABS_DYNAMICS_DEFAULT_VALUE = 1.0f
-    }
 
     val currency = ObservableField<CurrencyInRub>()
     val isLoading = ObservableBoolean()
@@ -66,9 +61,15 @@ class MainViewModel @Inject constructor(private val app: AppDelegate) :
             sharedPreferences.getString(app.getString(R.string.max_abs_dynamics_string_key), null)
                 ?.toFloat() ?: MAX_ABS_DYNAMICS_DEFAULT_VALUE
         val lowDynamicsPercent =
-            sharedPreferences.getInt(app.getString(R.string.low_dynamics_int_key), 0).toFloat()
+            sharedPreferences.getInt(
+                app.getString(R.string.low_dynamics_int_key),
+                LOW_DYNAMICS_PERCENT_DEFAULT_VALUE
+            ).toFloat()
         val highDynamicsPercent =
-            sharedPreferences.getInt(app.getString(R.string.high_dynamics_int_key), 0).toFloat()
+            sharedPreferences.getInt(
+                app.getString(R.string.high_dynamics_int_key),
+                HIGH_DYNAMICS_PERCENT_DEFAULT_VALUE
+            ).toFloat()
         lowDynamics = baseValue * (lowDynamicsPercent / SEEK_BAR_MAX_VALUE)
         highDynamics = baseValue * (highDynamicsPercent / SEEK_BAR_MAX_VALUE)
     }

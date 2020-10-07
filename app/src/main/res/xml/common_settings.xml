@@ -50,22 +50,20 @@
                 app:key="@string/max_abs_dynamics_string_key"
                 app:title="@string/max_abs_dynamics" />
             <SeekBarPreference
-                app:defaultValue="20"
                 app:icon="@drawable/ic_low_dynamics"
+                android:defaultValue="20"
                 app:key="@string/low_dynamics_int_key"
                 app:title="@string/low_dynamics"
                 app:updatesContinuously="true" />
             <SeekBarPreference
-                app:defaultValue="90"
                 app:icon="@drawable/ic_high_dynamics"
+                android:defaultValue="90"
                 app:key="@string/high_dynamics_int_key"
-                app:summary="±0.9"
                 app:title="@string/high_dynamics"
                 app:updatesContinuously="true" />
         </PreferenceCategory>
     </PreferenceCategory>
     <Preference
         app:key="build_version_key"
-        app:summary="0.3.1"
         app:title="@string/build_version" />
 </androidx.preference.PreferenceScreen>

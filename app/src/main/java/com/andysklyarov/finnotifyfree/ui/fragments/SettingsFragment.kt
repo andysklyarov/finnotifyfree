@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.preference.*
+import com.andysklyarov.finnotifyfree.BuildConfig
 import com.andysklyarov.finnotifyfree.R
 import com.andysklyarov.finnotifyfree.alarm.AlarmServiceManager
 import com.google.android.material.button.MaterialButton
@@ -20,6 +21,10 @@ import org.threeten.bp.format.DateTimeFormatterBuilder
 
 const val SEEK_BAR_MIN_VALUE = 0
 const val SEEK_BAR_MAX_VALUE = 100
+
+const val MAX_ABS_DYNAMICS_DEFAULT_VALUE = 1.0f
+const val LOW_DYNAMICS_PERCENT_DEFAULT_VALUE = 20
+const val HIGH_DYNAMICS_PERCENT_DEFAULT_VALUE = 90
 
 private const val TYPE_CLASS_NUMBER_DECIMAL =
     InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
@@ -38,6 +43,7 @@ private val TIME_FORMATTER_AM_PM: DateTimeFormatter = DateTimeFormatterBuilder()
 
 private const val SETTINGS_INTERNAL_KEY = "settings_key"
 private const val ALARM_TIME_INTERNAL_KEY = "alarm_time_key"
+private const val BUILD_VERSION_INTERNAL_KEY = "build_version_key"
 
 class SettingsFragment : PreferenceFragmentCompat(), OnBackPressed {
     private lateinit var alarmManager: AlarmServiceManager
@@ -54,6 +60,8 @@ class SettingsFragment : PreferenceFragmentCompat(), OnBackPressed {
     private lateinit var maxAbsDynamics: EditTextPreference
     private lateinit var lowDynamics: SeekBarPreference
     private lateinit var highDynamics: SeekBarPreference
+
+    private lateinit var buildVersion : Preference
 
     private var isTimeFormat24 = true // todo add getter setter
 
@@ -199,13 +207,13 @@ class SettingsFragment : PreferenceFragmentCompat(), OnBackPressed {
         topLimit.setOnBindEditTextListener(onBindEditTextListenerToDecimal)
         topLimit.summaryProvider = editTexSummaryProvider
         topLimit.onPreferenceChangeListener = onLimitChangeListener
-        topLimit.setDefaultValue("0.0")
+        topLimit.setDefaultValue("50.0")
 
         bottomLimit.isVisible = isChecked
         bottomLimit.setOnBindEditTextListener(onBindEditTextListenerToDecimal)
         bottomLimit.summaryProvider = editTexSummaryProvider
         bottomLimit.onPreferenceChangeListener = onLimitChangeListener
-        bottomLimit.setDefaultValue("0.0")
+        bottomLimit.setDefaultValue("20.0")
 
         toggleSettingsCategory(isChecked)
         alarmSwitch.onPreferenceChangeListener = onAlarmSwitchPreferenceChangeListener
@@ -219,6 +227,8 @@ class SettingsFragment : PreferenceFragmentCompat(), OnBackPressed {
 
         lowDynamics.onPreferenceChangeListener = onLowDynamicsPreferenceChangeListener
         highDynamics.onPreferenceChangeListener = onHighDynamicsPreferenceChangeListener
+
+        buildVersion.summary = BuildConfig.VERSION_NAME
     }
 
     override fun onBackPressed() {
@@ -258,6 +268,7 @@ class SettingsFragment : PreferenceFragmentCompat(), OnBackPressed {
                 findPreference(activity.getString(R.string.max_abs_dynamics_string_key))!!
             lowDynamics = findPreference(activity.getString(R.string.low_dynamics_int_key))!!
             highDynamics = findPreference(activity.getString(R.string.high_dynamics_int_key))!!
+            buildVersion = findPreference(BUILD_VERSION_INTERNAL_KEY)!!
             true
         } catch (e: Exception) {
             showToastInCenter(R.string.preferences_init_error)

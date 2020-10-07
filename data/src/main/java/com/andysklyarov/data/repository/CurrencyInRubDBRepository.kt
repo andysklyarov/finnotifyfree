@@ -47,7 +47,7 @@ class CurrencyInRubDBRepository @Inject constructor() : CurrencyInRubRepository 
         var id = 0L
         currencyDao.insertCurrenciesOnDate(currencies.map { currencyInRub: CurrencyInRub ->
             CurrencyOnDate(
-                date.toEpochDay() + (id++),
+                id++, // to make new recordings use date.toEpochDay() + (id++)
                 currencyInRub.fullName,
                 currencyInRub.chCode,
                 formattedDate,
