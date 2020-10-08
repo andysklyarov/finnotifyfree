@@ -26,3 +26,26 @@ fun TextView.setNomText(nom: Int?, chCode: String?) {
         "${this.context.getString(R.string.nom_string)} $nom $chCode"
     }
 }
+
+@BindingAdapter("app:text")
+fun TextView.setTextFromFloat(value: Float?) {
+    this.text = if (value != null) {
+        "%.2f".format(value)
+    } else {
+        "0.00"
+    }
+}
+
+
+@BindingAdapter("app:diff_text")
+fun TextView.setDiffTextFromFloat(diffValue: Float?) {
+    this.text = if (diffValue != null) {
+        if (diffValue > 0) {
+            "+%.2f".format(diffValue)
+        } else {
+            "%.2f".format(diffValue)
+        }
+    } else {
+        "0.00"
+    }
+}

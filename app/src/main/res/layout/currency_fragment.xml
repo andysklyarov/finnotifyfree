@@ -80,7 +80,7 @@
                     android:layout_width="64dp"
                     android:layout_height="36dp"
                     android:layout_marginStart="@dimen/common_margin"
-                    android:text="@{viewModel.currency.diff > 0 ? '+' + Float.toString(viewModel.currency.diff) : Float.toString(viewModel.currency.diff) }"
+                    app:diff_text="@{viewModel.currency.diff}"
                     android:textSize="@dimen/small_text_size"
                     app:layout_constraintBottom_toTopOf="@+id/currency_value"
                     app:layout_constraintStart_toStartOf="parent"
@@ -92,7 +92,7 @@
                     android:layout_width="243dp"
                     android:layout_height="115dp"
                     android:layout_marginStart="@dimen/common_margin"
-                    android:text="@{Float.toString(viewModel.currency.value)}"
+                    app:text='@{viewModel.currency.value}'
                     android:textSize="@dimen/large_text_size"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
