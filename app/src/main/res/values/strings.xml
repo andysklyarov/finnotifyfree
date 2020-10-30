@@ -15,8 +15,8 @@
         курс валют на «завтра» в конце рабочего дня.
     </string>
 
-    <string name="top_limit">Верхний предел курса</string>
-    <string name="bottom_limit">Нижний предел курса</string>
+    <string name="top_limit">Уведомить, если курс выше</string>
+    <string name="bottom_limit">Уведомить, если курс ниже</string>
     <string name="alarm">Уведомления</string>
     <string name="enable_alarm">Разрешить уведомления</string>
     <string name="base_currency">RUB</string>

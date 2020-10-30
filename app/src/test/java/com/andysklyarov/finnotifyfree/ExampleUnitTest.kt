@@ -3,7 +3,10 @@ package com.andysklyarov.finnotifyfree
 import com.andysklyarov.data.network.GetLatestDateTime.ResponseLatestDateTimeBody
 import com.andysklyarov.data.network.GetLatestDateTime.ResponseLatestDateTimeData
 import com.andysklyarov.data.network.GetLatestDateTime.ResponseLatestDateTimeEnvelope
+import org.junit.Assert
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Test
 import org.simpleframework.xml.Serializer
 import org.simpleframework.xml.core.Persister
@@ -15,6 +18,13 @@ import java.io.ByteArrayOutputStream
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 class ExampleUnitTest {
+
+    @Before
+    fun initTest()
+    {
+
+    }
+
     @Test
     fun serializer_isCorrect() {
 
@@ -31,7 +41,7 @@ class ExampleUnitTest {
         val respEnv = serializer2.read(ResponseLatestDateTimeEnvelope::class.java, resString)
 
         val respEnvData = respEnv.body?.latestDateTimeDataResponse?.dateTime
-        val respEnvelopeData = respEnvelope.body?.latestDateTimeDataResponse?.dateTime
+//        val respEnvelopeData = respEnvelope.body?.latestDateTimeDataResponse?.dateTime
 
         assertEquals(respData, respEnvData)
     }
