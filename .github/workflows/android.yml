@@ -14,4 +14,4 @@ jobs:
       - name: Build with Gradle
         run: chmod +x ./gradlew app
       - name: Run some unit tests
-        run: ./gradlew testStageDebugUnitTest
+        run: ./gradlew app/src/test/java/com/andysklyarov/finnotifyfree
