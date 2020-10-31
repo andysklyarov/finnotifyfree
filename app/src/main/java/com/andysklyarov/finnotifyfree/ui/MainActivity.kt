@@ -1,5 +1,6 @@
 package com.andysklyarov.finnotifyfree.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.StrictMode
 import android.view.WindowManager
@@ -19,6 +20,9 @@ import com.andysklyarov.finnotifyfree.ui.fragments.CurrencyFragment
 import com.andysklyarov.finnotifyfree.ui.fragments.OnBackPressed
 import javax.inject.Inject
 
+/**
+ * @author Andrew Sklyarov
+ */
 class MainActivity : AppCompatActivity(), NavigationHost {
 
     @Inject
@@ -29,7 +33,7 @@ class MainActivity : AppCompatActivity(), NavigationHost {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
 
-        setStrictMode(BuildConfig.DEBUG)
+            //setStrictMode(BuildConfig.DEBUG)
 
         window.setFlags(
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
@@ -52,6 +56,8 @@ class MainActivity : AppCompatActivity(), NavigationHost {
                 .add(R.id.container, CurrencyFragment.newInstance())
                 .commit()
         }
+
+
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
     }
