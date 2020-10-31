@@ -27,7 +27,6 @@ class ExampleUnitTest {
 
     @Test
     fun serializer_isCorrect() {
-
         val respData = ResponseLatestDateTimeData("2020-09-04T00:00:00")
         val respBody = ResponseLatestDateTimeBody(respData)
         val respEnvelope = ResponseLatestDateTimeEnvelope(respBody)
@@ -41,8 +40,8 @@ class ExampleUnitTest {
         val respEnv = serializer2.read(ResponseLatestDateTimeEnvelope::class.java, resString)
 
         val respEnvData = respEnv.body?.latestDateTimeDataResponse?.dateTime
-//        val respEnvelopeData = respEnvelope.body?.latestDateTimeDataResponse?.dateTime
+        val respEnvelopeData = respEnvelope.body?.latestDateTimeDataResponse?.dateTime
 
-        assertEquals(respData, respEnvData)
+        assertEquals(respEnvelopeData, respEnvData)
     }
 }
